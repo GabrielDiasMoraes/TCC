@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CommonShootScript.cs" />
+    <Compile Include="Assets\Scripts\Data\MinionData.cs" />
     <Compile Include="Assets\Scripts\Minion.cs" />
     <Compile Include="Assets\Scripts\PopulationController.cs" />
     <Compile Include="Assets\Scripts\TargetResolver.cs" />

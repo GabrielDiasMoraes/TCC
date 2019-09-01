@@ -8,16 +8,18 @@ public class Minion : MonoBehaviour
 {
     #region Member Variables
 
-    private float _lifePoints;
-    private int _defPoints;
-    private float _speedValue;
-    private List<AbilityTypes> _abilities;
-
+    private MinionData _data;
+    
     private float _entireDistance;
 
     private float _fitness;
     
     private NavMeshAgent navMeshAgent;
+
+    private PopulationController _populationController;
+
+    [SerializeField]
+    private Animator _animator;
 
     [SerializeField]
     private Slider _lifeBar;
@@ -32,7 +34,7 @@ public class Minion : MonoBehaviour
         set => _fitness = value;
     }
 
-    public bool isAlive => _lifePoints > 0;
+    public bool isAlive => _data.LifePoints > 0;
     
     public Slider LifeBar => _lifeBar;
 
@@ -42,28 +44,40 @@ public class Minion : MonoBehaviour
         set => _entireDistance = value;
     }
 
+    public Color MinionColor
+    {
+        get => _data.Color;
+        set => _data.Color = value;
+    }
+    
     public float LifePoints
     {
-        get => _lifePoints;
-        set => _lifePoints = value;
+        get => _data.LifePoints;
+        set => _data.LifePoints = value;
     }
 
     public int DefPoints
     {
-        get => _defPoints;
-        set => _defPoints = value;
+        get => _data.DefPoints;
+        set => _data.DefPoints = value;
     }
 
     public float SpeedValue
     {
-        get => _speedValue;
-        set => _speedValue = value;
+        get => _data.SpeedValue;
+        set => _data.SpeedValue = value;
     }
 
     public List<AbilityTypes> Abilities
     {
-        get => _abilities;
-        set => _abilities = value;
+        get => _data.Abilities;
+        set => _data.Abilities = value;
+    }
+
+    public PopulationController PopulationController
+    {
+        get => _populationController;
+        set => _populationController = value;
     }
 
     #endregion
@@ -72,17 +86,21 @@ public class Minion : MonoBehaviour
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        
+    }
+
+    private void LateUpdate()
+    {
+        _animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
     }
 
     public void TakeDamage(float damage)
     {
-        _lifePoints -= (damage * (float)_defPoints / 100);
-        _lifeBar.value = Mathf.Max(0, _lifePoints);
+        _data.LifePoints -= (damage * (float)_data.DefPoints / 100);
+        _lifeBar.value = Mathf.Max(0, _data.LifePoints);
 
         Debug.Log(damage);
         
-        if (_lifePoints <= 0)
+        if (_data.LifePoints <= 0)
         {
             OnDie();
         }
@@ -92,9 +110,27 @@ public class Minion : MonoBehaviour
     
     private void OnDie()
     {
-        _fitness = navMeshAgent.remainingDistance;
+        _fitness = GenerateFitness();
         navMeshAgent.speed = 0;
         Debug.Log(_fitness);
         gameObject.tag = "DeadMinion";
+        PopulationController.SaveMinion(_data, _fitness);
     }
+
+    private void OnFinish()
+    {
+        _fitness = GenerateFitness();
+        navMeshAgent.speed = 0;
+        Debug.Log(_fitness);
+        gameObject.tag = "EndPoint";
+        PopulationController.SaveMinion(_data, _fitness);
+    }
+
+    private float GenerateFitness()
+    {
+        float pFitness = _entireDistance - navMeshAgent.remainingDistance;
+        pFitness += _data.LifePoints * _data.LifePoints;
+        return pFitness;
+    }
+    
 }

@@ -23,6 +23,8 @@ public class PopulationController : MonoBehaviour
     [SerializeField] private int minimumDefense;
     
     [SerializeField] private int maximumDefense;
+
+    private Dictionary<MinionData, float> _endMinions;
     
     private Transform initPoint;
 
@@ -71,6 +73,10 @@ public class PopulationController : MonoBehaviour
 
         tempMinion.EntireDistance = tempAgent.remainingDistance;
 
+        tempMinion.PopulationController = this;
+
+        tempMinion.MinionColor = GenerateRandomColor();
+
 
     }
 
@@ -88,5 +94,16 @@ public class PopulationController : MonoBehaviour
     private int GenerateRandomLife()
     {
         return Random.Range(minimumLife, maximumLife);
+    }
+
+    // Todo
+    private Color GenerateRandomColor()
+    {
+        return Color.red;
+    }
+
+    public void SaveMinion(MinionData pData, float pFitness)
+    {
+        _endMinions[pData] = pFitness;
     }
 }
