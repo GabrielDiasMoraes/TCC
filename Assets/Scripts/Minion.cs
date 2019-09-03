@@ -16,13 +16,13 @@ public class Minion : MonoBehaviour
     
     private NavMeshAgent navMeshAgent;
 
-    private PopulationController _populationController;
-
     [SerializeField]
     private Animator _animator;
 
     [SerializeField]
     private Slider _lifeBar;
+
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     
     #endregion
 
@@ -34,6 +34,12 @@ public class Minion : MonoBehaviour
         set => _fitness = value;
     }
 
+    public MinionData Data
+    {
+        get => _data;
+        set => _data = value;
+    }
+    
     public bool isAlive => _data.LifePoints > 0;
     
     public Slider LifeBar => _lifeBar;
@@ -47,9 +53,13 @@ public class Minion : MonoBehaviour
     public Color MinionColor
     {
         get => _data.Color;
-        set => _data.Color = value;
+        set
+        {
+            _data.Color = value;
+            _spriteRenderer.color = value;
+        }
     }
-    
+
     public float LifePoints
     {
         get => _data.LifePoints;
@@ -72,12 +82,6 @@ public class Minion : MonoBehaviour
     {
         get => _data.Abilities;
         set => _data.Abilities = value;
-    }
-
-    public PopulationController PopulationController
-    {
-        get => _populationController;
-        set => _populationController = value;
     }
 
     #endregion
@@ -114,7 +118,7 @@ public class Minion : MonoBehaviour
         navMeshAgent.speed = 0;
         Debug.Log(_fitness);
         gameObject.tag = "DeadMinion";
-        PopulationController.SaveMinion(_data, _fitness);
+        PopulationController.Instance.SaveMinion(_data, _fitness);
     }
 
     private void OnFinish()
@@ -123,7 +127,7 @@ public class Minion : MonoBehaviour
         navMeshAgent.speed = 0;
         Debug.Log(_fitness);
         gameObject.tag = "EndPoint";
-        PopulationController.SaveMinion(_data, _fitness);
+        PopulationController.Instance.SaveMinion(_data, _fitness);
     }
 
     private float GenerateFitness()
