@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -27,7 +28,7 @@ public class PopulationController : MonoBehaviour
     
     [SerializeField] public int maximumDefense;
 
-    public Dictionary<MinionData, float> _minionsAfterWave;
+    public Dictionary<MinionData, FitnessData> _minionsAfterWave;
 
     public List<GameObject> _minionsToAwake;
 
@@ -38,6 +39,7 @@ public class PopulationController : MonoBehaviour
     public Transform endPoint;
 
     private float passedTime;
+
 
     private void Awake()
     {
@@ -71,7 +73,7 @@ public class PopulationController : MonoBehaviour
 
         if (_minionsAfterWave == null)
         {
-            _minionsAfterWave = new Dictionary<MinionData, float>();
+            _minionsAfterWave = new Dictionary<MinionData, FitnessData>();
         }
 
         for (int i = _aliveMinions.Count - 1; i >= 0; i--)
@@ -135,16 +137,20 @@ public class PopulationController : MonoBehaviour
         
             tempMinion.DefPoints = GenerateRandomDefense();
 
-            tempMinion.LifePoints = GenerateRandomLife();
+            tempMinion.InitialLife = tempMinion.LifePoints = GenerateRandomLife();
 
             tempMinion.LifeBar.value = tempMinion.LifeBar.maxValue = tempMinion.LifePoints;
 
             tempMinion.EntireDistance = tempAgent.remainingDistance;
 
             tempMinion.MinionColor = GenerateRandomColor();
+
+            tempMinion.InitialTime = Time.time;
             
+            _aliveMinions.Add(_minionsToAwake[0]);
             
             _minionsToAwake.RemoveAt(0);
+
         }
     }
 
@@ -172,8 +178,137 @@ public class PopulationController : MonoBehaviour
         return new Color(red, green, blue);
     }
 
-    public void SaveMinion(MinionData pData, float pFitness)
+    public void SaveMinion(MinionData pData, FitnessData pFitnessData)
     {
-        _minionsAfterWave[pData] = pFitness;
+        _minionsAfterWave[pData] = pFitnessData;
+    }
+
+    public void CalculateFitness(int type)
+    {
+        switch (type)
+        {
+            // Only the best in distance and life remaining
+            case 0:
+            {
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    pMinion.Key.Fitness = pMinion.Value.TraveledDistance + pMinion.Value.Life;
+                }
+                break;
+            }
+
+            // The Faster
+            case 1:
+            {
+                float pBestSpeed = _minionsAfterWave.First().Value.Speed;
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    if (pMinion.Value.Speed > pBestSpeed)
+                    {
+                        pBestSpeed = pMinion.Value.Speed;
+                    }
+                }
+
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    pMinion.Key.Fitness = pMinion.Value.Speed/pBestSpeed;
+                }
+                break;
+            }
+
+            // The "Tanker"
+            case 2:
+            {
+                float pBestMitigatedDamage = _minionsAfterWave.First().Value.MitigatedDamage;
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    if (pMinion.Value.MitigatedDamage > pBestMitigatedDamage)
+                    {
+                        pBestMitigatedDamage = pMinion.Value.MitigatedDamage;
+                    }
+                }
+
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    pMinion.Key.Fitness = pMinion.Value.MitigatedDamage/pBestMitigatedDamage;
+                }
+                break;
+            }
+
+            // The Smarter
+            case 3:
+            {
+                float pBestTime = _minionsAfterWave.First().Value.TimeToFinish;
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    if (pMinion.Value.TimeToFinish < pBestTime)
+                    {
+                        // The best time is the smaller number
+                        pBestTime = (1.0f/pMinion.Value.TimeToFinish) * 10;
+                    }
+                }
+
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    pMinion.Key.Fitness = pMinion.Value.TimeToFinish/pBestTime;
+                }
+                break;
+            }
+            
+            // The Smarter/Tanker
+            case 4:
+            {
+                float pBestTime = _minionsAfterWave.First().Value.TimeToFinish;
+                float pBestMitigatedDamage = _minionsAfterWave.First().Value.MitigatedDamage;
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    if (pMinion.Value.TimeToFinish < pBestTime)
+                    {
+                        // The best time is the smaller number
+                        pBestTime = (1.0f/pMinion.Value.TimeToFinish) * 10;
+                    }
+                    
+                    if (pMinion.Value.MitigatedDamage > pBestMitigatedDamage)
+                    {
+                        pBestMitigatedDamage = pMinion.Value.MitigatedDamage;
+                    }
+                }
+
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    pMinion.Key.Fitness = (pMinion.Value.TimeToFinish/pBestTime * 3) + (pMinion.Value.MitigatedDamage/pBestMitigatedDamage * 1);
+                }
+                break;
+            }
+            
+            
+            // The Smarter/Faster
+            case 5:
+            {
+                float pBestTime = _minionsAfterWave.First().Value.TimeToFinish;
+                float pBestSpeed = _minionsAfterWave.First().Value.Speed;
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    if (pMinion.Value.TimeToFinish < pBestTime)
+                    {
+                        // The best time is the smaller number
+                        pBestTime = (1.0f/pMinion.Value.TimeToFinish) * 10;
+                    }
+                    
+                    if (pMinion.Value.Speed > pBestSpeed)
+                    {
+                        pBestSpeed = pMinion.Value.Speed;
+                    }
+                }
+
+                foreach (var pMinion in _minionsAfterWave)
+                {
+                    pMinion.Key.Fitness = (pMinion.Value.TimeToFinish/pBestTime * 3) + (pMinion.Value.Speed/pBestSpeed * 1);
+                }
+                break;
+            }
+            
+        }
+        
     }
 }

@@ -12,9 +12,11 @@ public class Minion : MonoBehaviour
     
     private float _entireDistance;
 
-    private float _fitness;
-    
+    private FitnessData _fitnessData;
+   
     private NavMeshAgent navMeshAgent;
+
+    private float _initialTime;
 
     [SerializeField]
     private Animator _animator;
@@ -28,12 +30,24 @@ public class Minion : MonoBehaviour
 
     #region Properties
 
-    public float Fitness
+    public FitnessData FitnessData
     {
-        get => _fitness;
-        set => _fitness = value;
+        get => _fitnessData;
+        set => _fitnessData = value;
     }
 
+    public float InitialLife
+    {
+        get => _data.FullLife;
+        set => _data.FullLife = value;
+    }
+
+    public float InitialTime
+    {
+        get => _initialTime;
+        set => _initialTime = value;
+    }
+    
     public MinionData Data
     {
         get => _data;
@@ -99,8 +113,10 @@ public class Minion : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        _data.LifePoints -= (damage * (float)_data.DefPoints / 100);
+        float tEndDamage = (damage * (float)_data.DefPoints / 100);
+        _data.LifePoints -= tEndDamage;
         _lifeBar.value = Mathf.Max(0, _data.LifePoints);
+        _data.MitigatedDamage += damage - tEndDamage;
 
         Debug.Log(damage);
         
@@ -114,27 +130,32 @@ public class Minion : MonoBehaviour
     
     private void OnDie()
     {
-        _fitness = GenerateFitness();
+        _fitnessData = GenerateFitness();
         navMeshAgent.speed = 0;
-        Debug.Log(_fitness);
+        Debug.Log(_fitnessData);
         gameObject.tag = "DeadMinion";
-        PopulationController.Instance.SaveMinion(_data, _fitness);
+        PopulationController.Instance.SaveMinion(_data, _fitnessData);
     }
 
     private void OnFinish()
     {
-        _fitness = GenerateFitness();
+        _fitnessData = GenerateFitness();
         navMeshAgent.speed = 0;
-        Debug.Log(_fitness);
+        Debug.Log(_fitnessData);
         gameObject.tag = "EndPoint";
-        PopulationController.Instance.SaveMinion(_data, _fitness);
+        PopulationController.Instance.SaveMinion(_data, _fitnessData);
     }
 
-    private float GenerateFitness()
+    private FitnessData GenerateFitness()
     {
-        float pFitness = _entireDistance - navMeshAgent.remainingDistance;
-        pFitness += _data.LifePoints * _data.LifePoints;
-        return pFitness;
+        FitnessData fitnessData = new FitnessData();
+        fitnessData.TraveledDistance = _entireDistance - navMeshAgent.remainingDistance;
+        fitnessData.Life = _data.LifePoints;
+        fitnessData.Speed = _data.SpeedValue;
+        fitnessData.OriginalLife = _data.FullLife;
+        fitnessData.MitigatedDamage = _data.MitigatedDamage;
+        fitnessData.TimeToFinish = Time.time - _initialTime; 
+        return fitnessData;
     }
     
 }

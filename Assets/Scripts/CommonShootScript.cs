@@ -6,7 +6,7 @@ public class CommonShootScript : MonoBehaviour
 {
 
     private bool _isGoing;
-    Transform _target;
+    Vector3 _target;
     Transform _initPosition;
 
     [SerializeField]
@@ -18,12 +18,12 @@ public class CommonShootScript : MonoBehaviour
         {
             return false;
         }
-        _target = pTarget;
+        _target = pTarget.position;
         _initPosition = pInitPosition;
         transform.position = pInitPosition.position;
         _isGoing = true;
-        var tEmissionModule = _particleSystem.emission;
-        tEmissionModule.enabled = true;
+        //var tEmissionModule = _particleSystem.emission;
+        //tEmissionModule.enabled = true;
         return true;
     }
 
@@ -33,23 +33,29 @@ public class CommonShootScript : MonoBehaviour
         tEmissionModule.enabled = false;
     }
 
+    //Todo: Make shoot stop in final position, and so will disappear in the ground
     void Update()
     {
         if (_isGoing)
         {
             transform.LookAt(_target);
-            transform.position += transform.forward * 20 * Time.deltaTime;
-            if (Vector3.Distance(_target.transform.position, transform.position) <= 1)
+            transform.position += transform.forward * 2 * Time.deltaTime;
+            Vector3 shootPos = transform.position;
+            shootPos.y = 0;
+            Vector3 targetPos = _target;
+            targetPos.y = 0;
+            Debug.Log(Vector3.Distance(targetPos, shootPos) <= 0.1f);
+            if (Vector3.Distance(targetPos, shootPos) <= 0.1f)
             {
                 _isGoing = false;
-                var tEmissionModule = _particleSystem.emission;
-                tEmissionModule.enabled = false;
-                transform.position = _initPosition.position;
+                //var tEmissionModule = _particleSystem.emission;
+                //tEmissionModule.enabled = false;
+                //transform.position = _initPosition.position;
             }
         }
-        else
-        {
-            transform.position = _initPosition.position;
-        }
+        //else
+        //{
+        //    transform.position = _initPosition.position;
+        //}
     }
 }

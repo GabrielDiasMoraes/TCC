@@ -6,8 +6,11 @@ public class MinionData
     #region Member Variables
 
     private float _lifePoints;
+    private float _fullLife;
     private int _defPoints;
+    private float _mitigatedDamage;
     private float _speedValue;
+    private float _fitness;
     private List<AbilityTypes> _abilities;
     private Color _color;
     #endregion
@@ -18,6 +21,18 @@ public class MinionData
     {
         get => _lifePoints;
         set => _lifePoints = value;
+    }
+
+    public float FullLife
+    {
+        get => _fullLife;
+        set => _fullLife = value;
+    }
+
+    public float MitigatedDamage
+    {
+        get => _mitigatedDamage;
+        set => _mitigatedDamage = value;
     }
 
     public int DefPoints
@@ -43,5 +58,12 @@ public class MinionData
         get => _color;
         set => _color = value;
     }
+
+    public float Fitness
+    {
+        get => _fitness;
+        set => _fitness = value;
+    }
+    
     #endregion
 }

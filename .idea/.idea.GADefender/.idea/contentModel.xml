@@ -13,10 +13,10 @@
             <e p="PopulationController.cs" t="Include" />
           </e>
           <e p="Data" t="Include">
+            <e p="FitnessData.cs" t="Include" />
             <e p="MinionData.cs" t="Include" />
           </e>
           <e p="Minion.cs" t="Include" />
-          <e p="TargetResolver.cs" t="Include" />
           <e p="Tower.cs" t="Include" />
           <e p="Types" t="Include">
             <e p="AbilityTypes.cs" t="Include" />

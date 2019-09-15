@@ -60,9 +60,9 @@
     <Compile Include="Assets\Scripts\CommonShootScript.cs" />
     <Compile Include="Assets\Scripts\Controller\GameController.cs" />
     <Compile Include="Assets\Scripts\Controller\PopulationController.cs" />
+    <Compile Include="Assets\Scripts\Data\FitnessData.cs" />
     <Compile Include="Assets\Scripts\Data\MinionData.cs" />
     <Compile Include="Assets\Scripts\Minion.cs" />
-    <Compile Include="Assets\Scripts\TargetResolver.cs" />
     <Compile Include="Assets\Scripts\Tower.cs" />
     <Compile Include="Assets\Scripts\Types\AbilityTypes.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">

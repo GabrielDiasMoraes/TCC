@@ -24,7 +24,9 @@ public class Tower : MonoBehaviour
 
     private float deltaTIme;
 
+    //Todo: Make a array for the shoots (some like 3/cdTime)
     private CommonShootScript shootScript;
+    
 
     private void Start()
     {
@@ -36,7 +38,7 @@ public class Tower : MonoBehaviour
     void Update()
     {
         deltaTIme += Time.deltaTime;
-        _minions = GameObject.FindGameObjectsWithTag("Minion");
+        _minions = PopulationController.Instance._aliveMinions.ToArray();
         if(_minions.Length == 0)
             return;
         _nearestMinion = _minions[0];
