@@ -52,8 +52,6 @@ public class PopulationController : MonoBehaviour
 
     private void Start()
     {
-        initPoint = GameObject.FindWithTag("InitPoint").transform;
-        endPoint =  GameObject.FindWithTag("EndPoint").transform;
 
         Initialize();
 

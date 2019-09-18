@@ -30,7 +30,7 @@ public class CommonShootScript : MonoBehaviour
     void Start()
     {
         var tEmissionModule = _particleSystem.emission;
-        tEmissionModule.enabled = false;
+//        tEmissionModule.enabled = false;
     }
 
     //Todo: Make shoot stop in final position, and so will disappear in the ground

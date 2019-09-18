@@ -10,8 +10,6 @@ public class Tower : MonoBehaviour
 
     [SerializeField] private float _shootDelay;
 
-    [SerializeField] private GameObject _shootGameObject;
-
     [SerializeField] private GameObject _cannonRotationCenter;
 
     [SerializeField] private Transform _cannonBallExit;
@@ -24,14 +22,9 @@ public class Tower : MonoBehaviour
 
     private float deltaTIme;
 
-    //Todo: Make a array for the shoots (some like 3/cdTime)
-    private CommonShootScript shootScript;
-    
-
     private void Start()
     {
         deltaTIme = _shootDelay;
-        shootScript = _shootGameObject.GetComponent<CommonShootScript>();
     }
 
 
@@ -64,18 +57,17 @@ public class Tower : MonoBehaviour
                 Minion tempMinion = _nearestMinion.GetComponent<Minion>();
                 if (tempMinion != null)
                 {
-                    //_shootGameObject.transform.position = _cannonBallExit.position;
-                    if (shootScript.Setup(tempMinion.transform, _cannonBallExit))
-                    {
-                        tempMinion.TakeDamage(_damage);
-                        deltaTIme = 0;
-                    }
+                    
                 }
             }
         }
 
     }
     
+    void Shoot(Minion tMinion)
+    {
+        tMinion.TakeDamage(_damage);
+    }
     
     void OnDrawGizmosSelected()
     {
