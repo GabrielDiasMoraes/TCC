@@ -8,6 +8,7 @@ TagManager:
   - InitPoint
   - Minion
   - DeadMinion
+  - FinishMinion
   layers:
   - Default
   - TransparentFX

@@ -1,45 +1,197 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
+using System.Linq;
+using System.Text;
 
 public class PopulationController : MonoBehaviour
 {
-    
+    #region Member Variables
     public static PopulationController Instance { get; private set; }
     
     [SerializeField] private GameObject _minionPrefab;
 
-    [SerializeField] public int _minionsQuantity;
+    [SerializeField] private int _minionsQuantity;
 
-    [SerializeField] public float _mutationPercent;
+    [SerializeField] private float _mutationPercent;
 
-    [SerializeField] public float minimumSpeed;
-
-    [SerializeField] public float maximumSpeed;
-
-    [SerializeField] public int minimumLife;
+    private float _elitismTopTierPercent;
     
-    [SerializeField] public int maximumLife;
+    private float _elitismBottomTierPercent;
+
+    [SerializeField] private float minimumSpeed;
+
+    [SerializeField] private float maximumSpeed;
+
+    [SerializeField] private int minimumLife;
     
-    [SerializeField] public int minimumDefense;
+    [SerializeField] private int maximumLife;
     
-    [SerializeField] public int maximumDefense;
+    [SerializeField] private int minimumDefense;
+    
+    [SerializeField] private int maximumDefense;
+
+    [SerializeField] private int minimumElitismPercent;
+    
+    [SerializeField] private int maximumElitismPercent;
+
+    private FitnessTypes fitnessType;
 
     public Dictionary<MinionData, FitnessData> _minionsAfterWave;
 
     public List<GameObject> _minionsToAwake;
 
     public List<GameObject> _aliveMinions;
+
+    public List<MinionData> _minionsFromCrossover;
     
     public Transform initPoint;
 
     public Transform endPoint;
 
+    [SerializeField] private GameObject _endTurnWindowPrefab;
+    
+    private GameObject _endTurnWindow;
+    
     private float passedTime;
 
+    #endregion
+    
+    #region Properties
+
+    public int MinionsQuantity
+    {
+        get => _minionsQuantity;
+        set => _minionsQuantity = value;
+    }
+
+    public float MutationPercent
+    {
+        get => _mutationPercent;
+        set => _mutationPercent = value;
+    }
+
+    public float ElitismTopTierPercent
+    {
+        get => _elitismTopTierPercent;
+        set => _elitismTopTierPercent = value;
+    }
+
+    public float ElitismBottomTierPercent
+    {
+        get => _elitismBottomTierPercent;
+        set => _elitismBottomTierPercent = value;
+    }
+
+    public float MinimumSpeed
+    {
+        get => minimumSpeed;
+        set => minimumSpeed = value;
+    }
+
+    public float MaximumSpeed
+    {
+        get => maximumSpeed;
+        set => maximumSpeed = value;
+    }
+
+    public int MinimumLife
+    {
+        get => minimumLife;
+        set => minimumLife = value;
+    }
+
+    public int MaximumLife
+    {
+        get => maximumLife;
+        set => maximumLife = value;
+    }
+
+    public int MinimumDefense
+    {
+        get => minimumDefense;
+        set => minimumDefense = value;
+    }
+
+    public int MaximumDefense
+    {
+        get => maximumDefense;
+        set => maximumDefense = value;
+    }
+
+    public int MinimumElitismPercent
+    {
+        get => minimumElitismPercent;
+        set => minimumElitismPercent = value;
+    }
+
+    public int MaximumElitismPercent
+    {
+        get => maximumElitismPercent;
+        set => maximumElitismPercent = value;
+    }
+
+    public Dictionary<MinionData, FitnessData> MinionsAfterWave
+    {
+        get => _minionsAfterWave;
+        set => _minionsAfterWave = value;
+    }
+
+    public List<GameObject> MinionsToAwake
+    {
+        get => _minionsToAwake;
+        set => _minionsToAwake = value;
+    }
+
+    public List<GameObject> AliveMinions
+    {
+        get => _aliveMinions;
+        set => _aliveMinions = value;
+    }
+
+    public List<MinionData> MinionsFromCrossover
+    {
+        get => _minionsFromCrossover;
+        set => _minionsFromCrossover = value;
+    }
+
+    public Transform InitPoint
+    {
+        get => initPoint;
+        set => initPoint = value;
+    }
+
+    public Transform EndPoint
+    {
+        get => endPoint;
+        set => endPoint = value;
+    }
+
+    public GameObject EndTurnWindow
+    {
+        get => _endTurnWindow;
+        set => _endTurnWindow = value;
+    }
+
+    public float PassedTime
+    {
+        get => passedTime;
+        set => passedTime = value;
+    }
+    
+    public FitnessTypes FitnessType
+    {
+        get => fitnessType;
+        set => fitnessType = value;
+    }
+
+    #endregion
+    
 
     private void Awake()
     {
@@ -52,8 +204,9 @@ public class PopulationController : MonoBehaviour
 
     private void Start()
     {
-
         Initialize();
+        _endTurnWindow = Instantiate(_endTurnWindowPrefab);
+        _endTurnWindow.SetActive(false);
 
     }
 
@@ -122,33 +275,45 @@ public class PopulationController : MonoBehaviour
         if (_minionsToAwake.Count > 0)
         {
             _minionsToAwake[0].SetActive(true);
-
+            
             Minion tempMinion = _minionsToAwake[0].GetComponent<Minion>();
             
-            tempMinion.Data = new MinionData();
-        
             NavMeshAgent tempAgent = tempMinion.GetComponent<NavMeshAgent>();
-        
-            tempAgent.destination = endPoint.position;
+            
+            if(!tempMinion.IsFromCrossover)
+            {
+                tempMinion.Data = new MinionData();
+            }
 
-            tempAgent.speed = tempMinion.SpeedValue = GenerateRandomSpeed();
-        
-            tempMinion.DefPoints = GenerateRandomDefense();
-
-            tempMinion.InitialLife = tempMinion.LifePoints = GenerateRandomLife();
-
-            tempMinion.LifeBar.value = tempMinion.LifeBar.maxValue = tempMinion.LifePoints;
-
-            tempMinion.EntireDistance = tempAgent.remainingDistance;
-
+            tempMinion.Destination = tempAgent.destination = endPoint.position;
+            
+            tempMinion.InitialTime = Time.time;
+            
             tempMinion.MinionColor = GenerateRandomColor();
 
-            tempMinion.InitialTime = Time.time;
+            tempMinion.EntireDistance = tempAgent.remainingDistance;   
+            
+            if (!tempMinion.IsFromCrossover)
+            {
+                tempAgent.speed = tempMinion.SpeedValue = GenerateRandomSpeed();
+
+                tempMinion.DefPoints = GenerateRandomDefense();
+
+                tempMinion.InitialLife = tempMinion.LifePoints = GenerateRandomLife();                       
+            }
+            else
+            {
+                tempAgent.speed = tempMinion.SpeedValue;
+                tempMinion.LifePoints = tempMinion.InitialLife;
+            }
+            
+            tempMinion.LifeBar.value = tempMinion.LifeBar.maxValue = tempMinion.LifePoints;
+            
+            tempMinion.Started = true;
             
             _aliveMinions.Add(_minionsToAwake[0]);
             
             _minionsToAwake.RemoveAt(0);
-
         }
     }
 
@@ -157,7 +322,12 @@ public class PopulationController : MonoBehaviour
         return Random.Range(minimumSpeed, maximumSpeed);
     }
 
-    private int GenerateRandomDefense()
+    private float GenerateRandomIntelligence()
+    {
+        return Random.Range(0, 10);
+    }
+
+    private float GenerateRandomDefense()
     {
         return Random.Range(minimumDefense, maximumDefense);
     }
@@ -179,14 +349,99 @@ public class PopulationController : MonoBehaviour
     public void SaveMinion(MinionData pData, FitnessData pFitnessData)
     {
         _minionsAfterWave[pData] = pFitnessData;
+        if (_minionsAfterWave.Count >= (_minionsToAwake.Count + _aliveMinions.Count))
+        {
+            DisplayEndTurnSelection();
+        }
     }
 
-    public void CalculateFitness(int type)
+    private void DisplayEndTurnSelection()
+    {
+        _endTurnWindow.SetActive(true);
+    }
+
+    public void EndTurn()
+    {
+        StringBuilder sb = new StringBuilder("");
+        int i = 0;
+        List<MinionData> _minionsAfterWaveList = SortMinions(_minionsAfterWave);
+        
+        _minionsAfterWave.Clear();
+            
+        Debug.Log("DO ELITIZATION");
+        _minionsAfterWaveList = Elitization(_minionsAfterWaveList);
+            
+        Debug.Log("DO CROSSOVEEEER");
+        Crossover(_minionsAfterWaveList);
+        i = 0;
+
+        sb.Clear();
+        foreach (var pMinion in _minionsFromCrossover)
+        {
+            sb.Append(i + " : " + pMinion.ToString());
+            sb.AppendLine();
+            i++;
+        }
+        Debug.Log(sb.ToString());
+
+        sb.Clear();
+        Debug.Log("DO MUTATION");
+        Mutation();
+        i = 0;
+        foreach (var pMinion in _minionsFromCrossover)
+        {
+            sb.Append(i + " : " + pMinion.ToString());
+            sb.AppendLine();
+            i++;
+        }
+        Debug.Log(sb.ToString());
+
+        TransformToGameObject(_minionsFromCrossover);
+    }
+
+    public void TransformToGameObject(List<MinionData> pMinions)
+    {
+        for (int i = _aliveMinions.Count - 1; i >= 0; i--)
+        {
+            Destroy(_aliveMinions[i]);
+            _aliveMinions.RemoveAt(i);
+        }
+        
+        for (int i = _minionsToAwake.Count - 1; i >= 0; i--)
+        {
+            Destroy(_minionsToAwake[i]);
+            _minionsToAwake.RemoveAt(i);
+        }
+
+        foreach (var pMinion in pMinions)
+        {
+            GameObject minionGameObject = CreateMinion();
+            minionGameObject.GetComponent<Minion>().Data = new MinionData(pMinion);
+            minionGameObject.GetComponent<Minion>().IsFromCrossover = true;
+            _minionsToAwake.Add(minionGameObject);
+        }
+    }
+    
+    public void CalculateFitness()
+    {
+        DoCalculateFitness(fitnessType);
+        int i = 0;
+        StringBuilder sb = new StringBuilder("");
+        foreach (var pMinion in _minionsAfterWave)
+        {
+            sb.Append(i + " : " + pMinion.Key.Fitness);
+            sb.AppendLine();
+            i++;
+        }
+        Debug.Log(sb.ToString());
+    }
+
+    public void DoCalculateFitness(FitnessTypes type)
     {
         switch (type)
         {
             // Only the best in distance and life remaining
-            case 0:
+            case FitnessTypes.DISTANCE:
             {
                 foreach (var pMinion in _minionsAfterWave)
                 {
@@ -196,7 +451,7 @@ public class PopulationController : MonoBehaviour
             }
 
             // The Faster
-            case 1:
+            case FitnessTypes.SPEED:
             {
                 float pBestSpeed = _minionsAfterWave.First().Value.Speed;
                 foreach (var pMinion in _minionsAfterWave)
@@ -215,7 +470,7 @@ public class PopulationController : MonoBehaviour
             }
 
             // The "Tanker"
-            case 2:
+            case FitnessTypes.DEFENSE:
             {
                 float pBestMitigatedDamage = _minionsAfterWave.First().Value.MitigatedDamage;
                 foreach (var pMinion in _minionsAfterWave)
@@ -234,7 +489,7 @@ public class PopulationController : MonoBehaviour
             }
 
             // The Smarter
-            case 3:
+            case FitnessTypes.SMARTER:
             {
                 float pBestTime = _minionsAfterWave.First().Value.TimeToFinish;
                 foreach (var pMinion in _minionsAfterWave)
@@ -254,7 +509,7 @@ public class PopulationController : MonoBehaviour
             }
             
             // The Smarter/Tanker
-            case 4:
+            case FitnessTypes.DEFENSE_SMARTER:
             {
                 float pBestTime = _minionsAfterWave.First().Value.TimeToFinish;
                 float pBestMitigatedDamage = _minionsAfterWave.First().Value.MitigatedDamage;
@@ -281,7 +536,7 @@ public class PopulationController : MonoBehaviour
             
             
             // The Smarter/Faster
-            case 5:
+            case FitnessTypes.SPEED_SMARTER:
             {
                 float pBestTime = _minionsAfterWave.First().Value.TimeToFinish;
                 float pBestSpeed = _minionsAfterWave.First().Value.Speed;
@@ -309,4 +564,161 @@ public class PopulationController : MonoBehaviour
         }
         
     }
+
+    public void Crossover(List<MinionData> pFrom)
+    {
+        _minionsFromCrossover = new List<MinionData>();
+        
+        for(int i = 0; i < _minionsQuantity/2; i++)
+        {
+            MinionData parent1 = RouletteSelection(pFrom);
+            MinionData parent2 = RouletteSelection(pFrom);
+            while (parent1 == parent2)
+            {
+                parent2 = RouletteSelection(pFrom);
+            }
+
+            doCrossover(parent1, parent2);
+        }
+    }
+
+    private void doCrossover(MinionData minion1, MinionData minion2)
+    {       
+        float[] data1 = TransformDataToVector(minion1);
+        float[] data2 = TransformDataToVector(minion2);
+        
+        float[] child1 = new float[4];
+        float[] child2 = new float[4];
+        
+        int cut_pos = Random.Range(1, data1.Length);
+
+        for (int i = 0; i < cut_pos; i++)
+        {
+            child1[i] = data1[i];
+            child2[i] = data2[i];
+        }
+        
+        for (int i = cut_pos; i < data1.Length; i++)
+        {
+            child1[i] = data2[i];
+            child2[i] = data1[i];
+        }
+
+        MinionData minionDataChild1 = TransformVectorToData(child1);
+        MinionData minionDataChild2 = TransformVectorToData(child2);
+
+        _minionsFromCrossover.Add(minionDataChild1);
+        _minionsFromCrossover.Add(minionDataChild2);
+    }
+
+    private MinionData RouletteSelection(List<MinionData> pFrom)
+    {
+        float fMax = pFrom.Sum(data => data.Fitness);
+        float fMinimum = Random.Range(0, fMax);
+        float fCurrent = 0;
+        foreach (var data in pFrom)
+        {
+            fCurrent += data.Fitness;
+            if (fCurrent > fMinimum)
+            {
+                return data;
+            }
+        }
+
+        int pos = Random.Range(0, pFrom.Count);
+        return pFrom.ElementAt(pos);
+    }
+
+    private List<MinionData> SortMinions(Dictionary<MinionData, FitnessData> pFrom)
+    {
+        List<MinionData> ordernedList = pFrom.Keys.ToList();
+
+        ordernedList.Sort((pair1, pair2) => pair1.Fitness.CompareTo(pair2.Fitness));
+        return ordernedList;
+    }
+
+    private List<MinionData> Elitization(List<MinionData> pFrom)
+    {
+        int amoutToRemoveTop = Mathf.RoundToInt((_elitismTopTierPercent / 100) * pFrom.Count);
+        int amoutToRemoveBottom = Mathf.RoundToInt((_elitismBottomTierPercent/ 100) * pFrom.Count);
+        
+        for (int i = 0, j = pFrom.Count - 1; i < amoutToRemoveTop; i++, j--)
+        {
+            pFrom.Remove(pFrom[j]);
+        }
+        pFrom.Reverse();
+        
+        for (int i = 0, j = pFrom.Count - 1; i < amoutToRemoveBottom; i++, j--)
+        {
+            pFrom.Remove(pFrom[j]);
+        }
+        pFrom.Reverse();
+
+        return pFrom;
+
+    }
+
+    private void Mutation()
+    {
+        int qnty = Mathf.RoundToInt((_mutationPercent / 100) * _minionsFromCrossover.Count);
+        for(int i = 0; i < qnty; i++) {
+            MinionData tSelected = RouletteSelection(_minionsFromCrossover);
+            DoMutation(tSelected);
+        }
+    }
+
+    private void DoMutation(MinionData pMinionData)
+    {
+          MinionData tNewMinion = new MinionData(pMinionData);
+          float[] data = TransformDataToVector(tNewMinion);
+          int pos = Random.Range(0, data.Length - 1);
+
+          switch (pos)
+          {
+              // Life
+              case 0:
+                  data[pos] = GenerateRandomLife();
+                  break;
+              // DefPoints
+              case 1:
+                  data[pos] = GenerateRandomDefense();
+                  break;
+              // Speed
+              case 2:
+                  data[pos] = GenerateRandomSpeed();
+                  break;
+              // Intelligence
+              case 3:
+                  data[pos] = GenerateRandomIntelligence();
+                  break;
+          }
+
+          tNewMinion = TransformVectorToData(data);
+          _minionsFromCrossover.Remove(pMinionData);
+          _minionsFromCrossover.Add(tNewMinion);
+
+    }
+
+    private float[] TransformDataToVector(MinionData pData)
+    {
+        float[] tempData = new float[4];
+        tempData[0] = pData.FullLife;
+        tempData[1] = pData.DefPoints;
+        tempData[2] = pData.SpeedValue;
+        tempData[3] = pData.Intelligence;
+
+        return tempData;
+    }
+
+    private MinionData TransformVectorToData(float[] pVector)
+    {
+        MinionData tMinionData = new MinionData();
+        tMinionData.FullLife = pVector[0];
+        tMinionData.DefPoints = pVector[1];
+        tMinionData.SpeedValue = pVector[2];
+        tMinionData.Intelligence = pVector[3];
+        return tMinionData;
+    }
+    
+    
 }

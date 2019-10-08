@@ -18,18 +18,39 @@ public class Minion : MonoBehaviour
 
     private float _initialTime;
 
+    private bool _started;
+
+    private bool _isFromCrossover;
+
     [SerializeField]
     private Animator _animator;
 
     [SerializeField]
     private Slider _lifeBar;
 
-    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField]
+    private Renderer _renderer;
+
+    private bool _reachEnd;
+
+    private float _timepassed;
+
+    private Vector3 _destination;
+
+    private bool isGoingWrongDest;
+
+    private float wrongDestTime, wrongDestCooldown;
     
     #endregion
 
     #region Properties
 
+    public bool Started
+    {
+        get => _started;
+        set => _started = value;
+    }
+    
     public FitnessData FitnessData
     {
         get => _fitnessData;
@@ -70,7 +91,7 @@ public class Minion : MonoBehaviour
         set
         {
             _data.Color = value;
-            _spriteRenderer.color = value;
+            _renderer.material.color = value;
         }
     }
 
@@ -80,7 +101,7 @@ public class Minion : MonoBehaviour
         set => _data.LifePoints = value;
     }
 
-    public int DefPoints
+    public float DefPoints
     {
         get => _data.DefPoints;
         set => _data.DefPoints = value;
@@ -98,17 +119,109 @@ public class Minion : MonoBehaviour
         set => _data.Abilities = value;
     }
 
+    public bool IsFromCrossover
+    {
+        get => _isFromCrossover;
+        set => _isFromCrossover = value;
+    }
+
+    public Vector3 Destination
+    {
+        get => _destination;
+        set => _destination = value;
+    }
+    
     #endregion
     
 
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        wrongDestCooldown = 0;
+        wrongDestTime = 0;
+        isGoingWrongDest = false;
     }
 
     private void LateUpdate()
     {
-        _animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
+        if (!isGoingWrongDest)
+        {
+            //_animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
+            float dist = Vector3.Distance(transform.position, navMeshAgent.destination);
+
+            if (dist <= 1f && !_reachEnd)
+            {
+                OnFinish();
+            }
+
+            if (_reachEnd)
+            {
+                _timepassed += Time.deltaTime;
+                if (_timepassed >= 3f)
+                {
+                    this.gameObject.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            wrongDestTime += Time.deltaTime;
+            if (wrongDestTime > 2f)
+            {
+                navMeshAgent.destination = Destination;
+                isGoingWrongDest = false;
+                wrongDestCooldown = 0f;
+            }
+        }
+        
+        
+        
+        if (wrongDestCooldown >= 2f && !isGoingWrongDest)
+        {
+            bool goWrongDest = true;
+            if (_data.Intelligence > 1)
+            {
+                int val = Random.Range(1, 10);
+                goWrongDest = val >= _data.Intelligence;
+            }
+
+            if (goWrongDest)
+            {
+                wrongDestTime = 0f;
+                isGoingWrongDest = true;
+                navMeshAgent.destination = GenerateWrongDestination();
+                Debug.Log(navMeshAgent.destination);
+            }
+        }
+
+        wrongDestCooldown += Time.deltaTime;
+
+    }
+
+    public Vector3 GenerateWrongDestination()
+    {
+        var tempTransform = transform;
+        int random = Random.Range(1, 3);
+        switch (random)
+        {
+            case 1:
+            {
+                
+                return tempTransform.position + tempTransform.right * 3;
+            }
+            
+            case 2:
+            {
+                return tempTransform.position - tempTransform.right * 3;
+            }
+                
+            case 3:
+            {
+                return tempTransform.position - tempTransform.forward * 5;
+            }
+        }
+
+        return tempTransform.position + transform.forward * 5;
     }
 
     public void TakeDamage(float damage)
@@ -135,15 +248,20 @@ public class Minion : MonoBehaviour
         Debug.Log(_fitnessData);
         gameObject.tag = "DeadMinion";
         PopulationController.Instance.SaveMinion(_data, _fitnessData);
+        Color tColor = _renderer.material.color;
+        tColor.a = 0.7f;
+        _renderer.material.color = tColor;
+
     }
 
     private void OnFinish()
     {
         _fitnessData = GenerateFitness();
         navMeshAgent.speed = 0;
-        Debug.Log(_fitnessData);
-        gameObject.tag = "EndPoint";
+
+        gameObject.tag = "FinishMinion";
         PopulationController.Instance.SaveMinion(_data, _fitnessData);
+        _reachEnd = true;
     }
 
     private FitnessData GenerateFitness()

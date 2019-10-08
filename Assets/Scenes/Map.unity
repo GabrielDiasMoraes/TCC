@@ -100,7 +100,7 @@ NavMeshSettings:
     agentRadius: 1
     agentHeight: 4
     agentSlope: 0
-    agentClimb: 0
+    agentClimb: 0.01
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -877,6 +877,72 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 88160948}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &94569853
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 94569856}
+  - component: {fileID: 94569855}
+  - component: {fileID: 94569854}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &94569854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94569853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &94569855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94569853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &94569856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94569853}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &105360820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2958,8 +3024,6 @@ GameObject:
   - component: {fileID: 377318374}
   - component: {fileID: 377318373}
   - component: {fileID: 377318372}
-  - component: {fileID: 377318376}
-  - component: {fileID: 377318375}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3031,44 +3095,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &377318375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377318371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 913247255fcc0774c98f5ac4d89bd1b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minionPrefab: {fileID: 1788947025271710, guid: 133f7507af35d2e4b84887d042f6c45b,
-    type: 3}
-  _minionsQuantity: 2
-  _mutationPercent: 0
-  minimumSpeed: 1
-  maximumSpeed: 10
-  minimumLife: 1
-  maximumLife: 200
-  minimumDefense: 1
-  maximumDefense: 70
-  _minionsToAwake: []
-  _aliveMinions: []
-  initPoint: {fileID: 117416203}
-  endPoint: {fileID: 865185849}
---- !u!114 &377318376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377318371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928268f8a4c3bec409dcbaa080ef2289, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &396958602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15994,6 +16020,80 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1949225229}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1950201321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1950201324}
+  - component: {fileID: 1950201323}
+  - component: {fileID: 1950201322}
+  m_Layer: 0
+  m_Name: Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1950201322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950201321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928268f8a4c3bec409dcbaa080ef2289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1950201323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950201321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913247255fcc0774c98f5ac4d89bd1b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minionPrefab: {fileID: 1788947025271710, guid: 133f7507af35d2e4b84887d042f6c45b,
+    type: 3}
+  _minionsQuantity: 100
+  _mutationPercent: 20
+  minimumSpeed: 10
+  maximumSpeed: 50
+  minimumLife: 10
+  maximumLife: 200
+  minimumDefense: 20
+  maximumDefense: 70
+  minimumElitismPercent: 5
+  maximumElitismPercent: 10
+  _minionsToAwake: []
+  _aliveMinions: []
+  initPoint: {fileID: 117416203}
+  endPoint: {fileID: 865185849}
+  _endTurnWindowPrefab: {fileID: 7177738255826092298, guid: b95a846000391c04fac3e08069088186,
+    type: 3}
+--- !u!4 &1950201324
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950201321}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.27, y: 1.2750428, z: 70.46272}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1950927874
 PrefabInstance:
   m_ObjectHideFlags: 0
