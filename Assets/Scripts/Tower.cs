@@ -12,12 +12,16 @@ public class Tower : MonoBehaviour
 
     [SerializeField] private GameObject _cannonRotationCenter;
 
-    [SerializeField] private Transform _cannonBallExit;
+    [SerializeField] private ParticleSystem _explosion;
+
+    [SerializeField] private ParticleSystem _minionExplosion;
     
     private GameObject[] _minions;
 
-    private GameObject _nearestMinion;
+    private Minion _target;
 
+    private bool _bHasTarget;
+   
     private float _nearestMinionDistance;
 
     private float deltaTIme;
@@ -25,43 +29,59 @@ public class Tower : MonoBehaviour
     private void Start()
     {
         deltaTIme = _shootDelay;
+        _bHasTarget = false;
     }
 
 
     void Update()
     {
-        deltaTIme += Time.deltaTime;
+        if (_bHasTarget)
+        {
+            float distance = Vector3.Distance(_target.transform.position, transform.position);
+            if (distance <= _radiusRange)
+            {
+                Vector3 whereToLook = _target.transform.position;
+                whereToLook.y = _cannonRotationCenter.transform.position.y;
+                _cannonRotationCenter.transform.LookAt(whereToLook);
+                deltaTIme += Time.deltaTime;
+                if (deltaTIme > _shootDelay)
+                {
+                    _explosion.Play();
+                    _minionExplosion.transform.position = _target.transform.position;
+                    _minionExplosion.Play();
+                    _target.TakeDamage(_damage);
+                    deltaTIme = 0;
+
+                    if (!_target.isAlive)
+                    {
+                        _bHasTarget = false;
+                    }
+                }
+            }
+            else
+            {
+                _bHasTarget = false;
+            }
+        }
+
+        if (_bHasTarget) return;
         _minions = PopulationController.Instance._aliveMinions.ToArray();
         if(_minions.Length == 0)
             return;
-        _nearestMinion = _minions[0];
+        
         _nearestMinionDistance = Vector3.Distance(_minions[0].transform.position, transform.position);
-        for(int i = 0; i < _minions.Length; i++)
+        
+        foreach (var minion in _minions)
         {
-            float tDistance = Vector3.Distance(_minions[i].transform.position, transform.position);
-            if (_nearestMinionDistance > tDistance)
+            Minion tMinion = minion.GetComponent<Minion>();
+            float tDistance = Vector3.Distance(minion.transform.position, transform.position);
+            if (_nearestMinionDistance > tDistance && tMinion.isAlive && tDistance <= _radiusRange)
             {
-                _nearestMinion = _minions[i];
                 _nearestMinionDistance = tDistance;
+                _target = tMinion;
+                _bHasTarget = true;
             }
         }
-
-        if (_nearestMinionDistance <= _radiusRange )
-        {
-            Vector3 whereToLook = _nearestMinion.transform.position;
-            whereToLook.y = _cannonRotationCenter.transform.position.y;
-            _cannonRotationCenter.transform.LookAt(whereToLook);
-            
-            if (deltaTIme > _shootDelay)
-            {
-                Minion tempMinion = _nearestMinion.GetComponent<Minion>();
-                if (tempMinion != null)
-                {
-                    
-                }
-            }
-        }
-
     }
     
     void Shoot(Minion tMinion)

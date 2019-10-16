@@ -154,7 +154,7 @@ public class Minion : MonoBehaviour
                 OnFinish();
             }
 
-            if (_reachEnd)
+            if (_reachEnd || !isAlive)
             {
                 _timepassed += Time.deltaTime;
                 if (_timepassed >= 3f)
@@ -190,7 +190,6 @@ public class Minion : MonoBehaviour
                 wrongDestTime = 0f;
                 isGoingWrongDest = true;
                 navMeshAgent.destination = GenerateWrongDestination();
-                Debug.Log(navMeshAgent.destination);
             }
         }
 
