@@ -81,6 +81,29 @@
             <e p="EmojiOne Attribution.txt" t="Include" />
           </e>
         </e>
+        <e p="Village" t="Include">
+          <e p="LowPoly" t="Include">
+            <e p="Medieval" t="Include">
+              <e p="Misc" t="Include">
+                <e p="Shaders" t="Include">
+                  <e p="EmissionShader.shader" t="Include" />
+                </e>
+              </e>
+              <e p="Village" t="Include">
+                <e p="Scripts" t="Include">
+                  <e p="ContainerOpener.cs" t="Include" />
+                  <e p="InfiniteRotator.cs" t="Include" />
+                  <e p="ToggleScript.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Materials" t="Include">
+            <e p="Shaders" t="Include">
+              <e p="DiffuseVertexColor.shader" t="Include" />
+            </e>
+          </e>
+        </e>
       </e>
       <e p="GADefender.sln" t="IncludeFlat" />
       <e p="Library" t="ExcludeRecursive" />
