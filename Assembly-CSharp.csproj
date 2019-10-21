@@ -67,6 +67,7 @@
     <Compile Include="Assets\EffectExamples\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\CommonShootScript.cs" />
     <Compile Include="Assets\Scripts\Controller\GameController.cs" />
+    <Compile Include="Assets\Scripts\Controller\InputController.cs" />
     <Compile Include="Assets\Scripts\Controller\PopulationController.cs" />
     <Compile Include="Assets\Scripts\Data\FitnessData.cs" />
     <Compile Include="Assets\Scripts\Data\MinionData.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Assets\Scripts\Types\AbilityTypes.cs" />
     <Compile Include="Assets\Scripts\Types\FitnessTypes.cs" />
     <Compile Include="Assets\Scripts\UI\EndTurnController.cs" />
+    <Compile Include="Assets\Scripts\UI\Lifebar.cs" />
     <Compile Include="Assets\Village\LowPoly\Medieval\Village\Scripts\ContainerOpener.cs" />
     <Compile Include="Assets\Village\LowPoly\Medieval\Village\Scripts\InfiniteRotator.cs" />
     <Compile Include="Assets\Village\LowPoly\Medieval\Village\Scripts\ToggleScript.cs" />

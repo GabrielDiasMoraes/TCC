@@ -40,6 +40,7 @@
           <e p="CommonShootScript.cs" t="Include" />
           <e p="Controller" t="Include">
             <e p="GameController.cs" t="Include" />
+            <e p="InputController.cs" t="Include" />
             <e p="PopulationController.cs" t="Include" />
           </e>
           <e p="Data" t="Include">
@@ -54,6 +55,7 @@
           </e>
           <e p="UI" t="Include">
             <e p="EndTurnController.cs" t="Include" />
+            <e p="Lifebar.cs" t="Include" />
           </e>
         </e>
         <e p="TextMesh Pro" t="Include">

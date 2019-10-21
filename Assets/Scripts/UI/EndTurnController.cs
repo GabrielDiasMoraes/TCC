@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +6,7 @@ using UnityEngine.UI;
 public class EndTurnController : MonoBehaviour
 {
 
-    [SerializeField] private Dropdown _fitnessTypeSelector;
+    [SerializeField] private TMP_Dropdown _fitnessTypeSelector;
     [SerializeField] private Slider _elitismTopSlider;
     [SerializeField] private TextMeshProUGUI _elitismTopValue;
     [SerializeField] private Slider _elitismBotSlider;
@@ -24,13 +23,13 @@ public class EndTurnController : MonoBehaviour
         _elitismTopSlider.onValueChanged.AddListener(delegate(float value) { _elitismTopValue.text = value.ToString() + "%"; });
         _fitnessTypeSelector.options.Clear();
         
-        List<Dropdown.OptionData> options = new List<Dropdown.OptionData>();
-        options.Add(new Dropdown.OptionData(FitnessTypes.DISTANCE.ToString()));
-        options.Add(new Dropdown.OptionData(FitnessTypes.SPEED.ToString()));
-        options.Add(new Dropdown.OptionData(FitnessTypes.DEFENSE.ToString()));
-        options.Add(new Dropdown.OptionData(FitnessTypes.SMARTER.ToString()));
-        options.Add(new Dropdown.OptionData(FitnessTypes.SPEED_SMARTER.ToString()));
-        options.Add(new Dropdown.OptionData(FitnessTypes.DEFENSE_SMARTER.ToString()));
+        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.DISTANCE.ToString()));
+        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.SPEED.ToString()));
+        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.DEFENSE.ToString()));
+        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.SMARTER.ToString()));
+        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.SPEED_SMARTER.ToString()));
+        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.DEFENSE_SMARTER.ToString()));
         
         _fitnessTypeSelector.options.AddRange(options);
         _fitnessTypeSelector.value = 0;

@@ -15,6 +15,8 @@ public class PopulationController : MonoBehaviour
     public static PopulationController Instance { get; private set; }
     
     [SerializeField] private GameObject _minionPrefab;
+    
+    [SerializeField] private GameObject _lifeBarPrefab;
 
     [SerializeField] private int _minionsQuantity;
 
@@ -55,10 +57,21 @@ public class PopulationController : MonoBehaviour
     public Transform endPoint;
 
     [SerializeField] private GameObject _endTurnWindowPrefab;
+
+    [SerializeField] private int _minionsToWinQnty;
+    
+    [SerializeField] private int roundsQnty;
     
     private GameObject _endTurnWindow;
     
     private float passedTime;
+
+    private int diedMinions;
+    private int reachEndMinions;
+    private int roundsQntyCount;
+
+    [SerializeField]
+    private float timeBetweenSpawn;
 
     #endregion
     
@@ -227,6 +240,10 @@ public class PopulationController : MonoBehaviour
             _minionsAfterWave = new Dictionary<MinionData, FitnessData>();
         }
 
+        diedMinions = 0;
+        reachEndMinions = 0;
+        roundsQntyCount = 1;
+
         for (int i = _aliveMinions.Count - 1; i >= 0; i--)
         {
             Destroy(_aliveMinions[i]);
@@ -247,13 +264,17 @@ public class PopulationController : MonoBehaviour
         {
             _minionsToAwake.Add(CreateMinion());
         }
+
+        GameController.Instance.MinionsCount.text = _minionsQuantity + "/" + _minionsQuantity;
+        GameController.Instance.MinionsCountToWin.text = "0/" + _minionsToWinQnty;
+        GameController.Instance.TurnsTextMeshProUgui.text = roundsQntyCount + "/" + roundsQnty;
     }
 
     private void Update()
     {
         passedTime += Time.deltaTime;
 
-        if (passedTime >= 2)
+        if (passedTime >= timeBetweenSpawn)
         {
             passedTime = 0;
             AwakeMinion();
@@ -264,6 +285,12 @@ public class PopulationController : MonoBehaviour
     private GameObject CreateMinion()
     {
         GameObject temp = Instantiate(_minionPrefab, initPoint.position, Quaternion.identity);
+        GameObject lifebar = Instantiate(_lifeBarPrefab);
+        temp.GetComponent<Minion>().LifeBar = lifebar.GetComponent<Lifebar>();
+        temp.GetComponent<Minion>().LifeBar.TargetToFollow = temp;
+        temp.GetComponent<Minion>().LifeBar.gameObject.SetActive(false);
+      
+        temp.SetActive(false);
         
         temp.SetActive(false);
 
@@ -279,6 +306,8 @@ public class PopulationController : MonoBehaviour
             Minion tempMinion = _minionsToAwake[0].GetComponent<Minion>();
             
             NavMeshAgent tempAgent = tempMinion.GetComponent<NavMeshAgent>();
+            
+            tempMinion.LifeBar.gameObject.SetActive(true);
             
             if(!tempMinion.IsFromCrossover)
             {
@@ -306,14 +335,16 @@ public class PopulationController : MonoBehaviour
                 tempAgent.speed = tempMinion.SpeedValue;
                 tempMinion.LifePoints = tempMinion.InitialLife;
             }
-            
-            tempMinion.LifeBar.value = tempMinion.LifeBar.maxValue = tempMinion.LifePoints;
+                     
+            tempMinion.LifeBar.Slider.value = tempMinion.LifeBar.Slider.maxValue = tempMinion.LifePoints;
             
             tempMinion.Started = true;
             
             _aliveMinions.Add(_minionsToAwake[0]);
             
             _minionsToAwake.RemoveAt(0);
+            
+            tempMinion.LifeBar.gameObject.SetActive(true);
         }
     }
 
@@ -346,12 +377,23 @@ public class PopulationController : MonoBehaviour
         return new Color(red, green, blue);
     }
 
-    public void SaveMinion(MinionData pData, FitnessData pFitnessData)
+    public void SaveMinion(MinionData pData, FitnessData pFitnessData, bool bDied = false)
     {
         _minionsAfterWave[pData] = pFitnessData;
         if (_minionsAfterWave.Count >= (_minionsToAwake.Count + _aliveMinions.Count))
         {
             DisplayEndTurnSelection();
+        }
+
+        if (bDied)
+        {
+            diedMinions++;
+            GameController.Instance.MinionsCount.text = _minionsQuantity - diedMinions + "/" + _minionsQuantity;
+        }
+        else
+        {
+            reachEndMinions++;
+            GameController.Instance.MinionsCountToWin.text = reachEndMinions + "/" + _minionsToWinQnty;
         }
     }
 
@@ -362,6 +404,12 @@ public class PopulationController : MonoBehaviour
 
     public void EndTurn()
     {
+        diedMinions = 0;
+        reachEndMinions = 0;
+        
+        GameController.Instance.MinionsCountToWin.text = reachEndMinions + "/" + _minionsToWinQnty;
+        GameController.Instance.MinionsCount.text = _minionsQuantity - diedMinions + "/" + _minionsQuantity;
+        
         StringBuilder sb = new StringBuilder("");
         int i = 0;
         List<MinionData> _minionsAfterWaveList = SortMinions(_minionsAfterWave);
@@ -397,18 +445,25 @@ public class PopulationController : MonoBehaviour
         Debug.Log(sb.ToString());
 
         TransformToGameObject(_minionsFromCrossover);
+
+        roundsQntyCount++;
+        GameController.Instance.TurnsTextMeshProUgui.text = roundsQntyCount + "/" + roundsQnty;
     }
 
     public void TransformToGameObject(List<MinionData> pMinions)
     {
         for (int i = _aliveMinions.Count - 1; i >= 0; i--)
         {
+            Destroy(_aliveMinions[i].GetComponent<Minion>().LifeBar.gameObject);
+            Destroy(_aliveMinions[i].GetComponent<Minion>().DeadModel);
             Destroy(_aliveMinions[i]);
             _aliveMinions.RemoveAt(i);
         }
         
         for (int i = _minionsToAwake.Count - 1; i >= 0; i--)
         {
+            Destroy(_minionsToAwake[i].GetComponent<Minion>().LifeBar.gameObject);
+            Destroy(_minionsToAwake[i].GetComponent<Minion>().DeadModel);
             Destroy(_minionsToAwake[i]);
             _minionsToAwake.RemoveAt(i);
         }

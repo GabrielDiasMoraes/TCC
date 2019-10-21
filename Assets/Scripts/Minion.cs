@@ -25,8 +25,7 @@ public class Minion : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
-    [SerializeField]
-    private Slider _lifeBar;
+    private Lifebar _lifeBar;
 
     [SerializeField]
     private Renderer _renderer;
@@ -40,10 +39,18 @@ public class Minion : MonoBehaviour
     private bool isGoingWrongDest;
 
     private float wrongDestTime, wrongDestCooldown;
+
+    [SerializeField] private GameObject aliveModel;
+
+    [SerializeField] private GameObject deadModel;
+
+    [SerializeField] private List<Renderer> _deadFragmentRenderers; 
     
     #endregion
 
     #region Properties
+
+    public GameObject DeadModel => deadModel;
 
     public bool Started
     {
@@ -76,8 +83,12 @@ public class Minion : MonoBehaviour
     }
     
     public bool isAlive => _data.LifePoints > 0;
-    
-    public Slider LifeBar => _lifeBar;
+
+    public Lifebar LifeBar
+    {
+        get => _lifeBar;
+        set => _lifeBar = value;
+    }
 
     public float EntireDistance
     {
@@ -92,6 +103,10 @@ public class Minion : MonoBehaviour
         {
             _data.Color = value;
             _renderer.material.color = value;
+            foreach (var fragmentRender in _deadFragmentRenderers)
+            {
+                fragmentRender.material.color = value;
+            }
         }
     }
 
@@ -132,7 +147,6 @@ public class Minion : MonoBehaviour
     }
     
     #endregion
-    
 
     void Start()
     {
@@ -140,6 +154,8 @@ public class Minion : MonoBehaviour
         wrongDestCooldown = 0;
         wrongDestTime = 0;
         isGoingWrongDest = false;
+        _lifeBar.gameObject.SetActive(true);
+        
     }
 
     private void LateUpdate()
@@ -159,6 +175,7 @@ public class Minion : MonoBehaviour
                 _timepassed += Time.deltaTime;
                 if (_timepassed >= 3f)
                 {
+                    deadModel.SetActive(false);
                     this.gameObject.SetActive(false);
                 }
             }
@@ -189,12 +206,16 @@ public class Minion : MonoBehaviour
             {
                 wrongDestTime = 0f;
                 isGoingWrongDest = true;
-                navMeshAgent.destination = GenerateWrongDestination();
+                if(navMeshAgent.gameObject.activeSelf)
+                    navMeshAgent.destination = GenerateWrongDestination();
             }
         }
 
         wrongDestCooldown += Time.deltaTime;
-
+        if(navMeshAgent.velocity.magnitude > 0)
+            _animator.Play("Idle");
+        else
+            _animator.Play("Stopped");
     }
 
     public Vector3 GenerateWrongDestination()
@@ -227,10 +248,10 @@ public class Minion : MonoBehaviour
     {
         float tEndDamage = (damage * (float)_data.DefPoints / 100);
         _data.LifePoints -= tEndDamage;
-        _lifeBar.value = Mathf.Max(0, _data.LifePoints);
+        _lifeBar.Slider.value = Mathf.Max(0, _data.LifePoints);
         _data.MitigatedDamage += damage - tEndDamage;
-
-        Debug.Log(damage);
+        
+        _animator.Play("Hit");
         
         if (_data.LifePoints <= 0)
         {
@@ -244,13 +265,12 @@ public class Minion : MonoBehaviour
     {
         _fitnessData = GenerateFitness();
         navMeshAgent.speed = 0;
-        Debug.Log(_fitnessData);
         gameObject.tag = "DeadMinion";
-        PopulationController.Instance.SaveMinion(_data, _fitnessData);
-        Color tColor = _renderer.material.color;
-        tColor.a = 0.7f;
-        _renderer.material.color = tColor;
-
+        PopulationController.Instance.SaveMinion(_data, _fitnessData, true);
+        _lifeBar.gameObject.SetActive(false);
+        aliveModel.SetActive(false);
+        deadModel.transform.parent = null;
+        deadModel.SetActive(true);
     }
 
     private void OnFinish()
@@ -261,6 +281,8 @@ public class Minion : MonoBehaviour
         gameObject.tag = "FinishMinion";
         PopulationController.Instance.SaveMinion(_data, _fitnessData);
         _reachEnd = true;
+        _lifeBar.gameObject.SetActive(false);
+        _animator.Play("Stopped");
     }
 
     private FitnessData GenerateFitness()

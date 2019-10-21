@@ -15,6 +15,8 @@ public class Tower : MonoBehaviour
     [SerializeField] private ParticleSystem _explosion;
 
     [SerializeField] private ParticleSystem _minionExplosion;
+
+    [SerializeField]  private Transform _exit;
     
     private GameObject[] _minions;
 
@@ -46,6 +48,7 @@ public class Tower : MonoBehaviour
                 deltaTIme += Time.deltaTime;
                 if (deltaTIme > _shootDelay)
                 {
+                    _explosion.transform.position = _exit.position;
                     _explosion.Play();
                     _minionExplosion.transform.position = _target.transform.position;
                     _minionExplosion.Play();
@@ -75,7 +78,7 @@ public class Tower : MonoBehaviour
         {
             Minion tMinion = minion.GetComponent<Minion>();
             float tDistance = Vector3.Distance(minion.transform.position, transform.position);
-            if (_nearestMinionDistance > tDistance && tMinion.isAlive && tDistance <= _radiusRange)
+            if (_nearestMinionDistance >= tDistance && tMinion.isAlive && tDistance <= _radiusRange)
             {
                 _nearestMinionDistance = tDistance;
                 _target = tMinion;
