@@ -212,10 +212,8 @@ public class Minion : MonoBehaviour
         }
 
         wrongDestCooldown += Time.deltaTime;
-        if(navMeshAgent.velocity.magnitude > 0)
-            _animator.Play("Idle");
-        else
-            _animator.Play("Stopped");
+        if(!_animator.isActiveAndEnabled) return;
+        _animator.Play(navMeshAgent.velocity.magnitude > 0 ? "Idle" : "Stopped");
     }
 
     public Vector3 GenerateWrongDestination()

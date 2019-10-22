@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using HedgehogTeam.EasyTouch;
 using UnityEngine;
 using TouchPhase = UnityEngine.TouchPhase;
 
@@ -32,51 +33,51 @@ public class InputController : MonoBehaviour
         if (Instance != null) return;
         Instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-    
-    private void Update()
-    {
-        SwipeBehavior();
+        SwipeBehaviorEasyTouch();
     }
 
-
-    void SwipeBehavior()
+    void SwipeBehaviorEasyTouch()
     {
-        if(Input.GetMouseButtonDown(0))
+        EasyTouch.On_Drag += delegate(Gesture gesture)
         {
-            _firstPressPos = new Vector2(Input.mousePosition.x,Input.mousePosition.y);
-        }
-        if(Input.GetMouseButton(0))
-        {
-            _secondPressPos = new Vector2(Input.mousePosition.x,Input.mousePosition.y);
-       
-            _currentSwipe = new Vector2(_secondPressPos.x - _firstPressPos.x, _secondPressPos.y - _firstPressPos.y);
-           
-            _currentSwipe.Normalize();
- 
-            if(_currentSwipe.x > 0  && _currentSwipe.y > -0.5f && _currentSwipe.y < 0.5f ||
-               _currentSwipe.x < 0 && _currentSwipe.y > -0.5f && _currentSwipe.y < 0.5f)
+            Vector2 direction = gesture.swipeVector.normalized;
+
+            Vector3 rotateDirection; 
+            
+            if((direction.x > 0  && direction.y > -0.5f && direction.y < 0.5f ||
+               direction.x < 0 && direction.y > -0.5f && direction.y < 0.5f) &&
+               (gesture.swipeVector.x > 1f || gesture.swipeVector.x < 1f))
             {
-                Vector3 direction = new Vector3(0, (_currentSwipe.x > 0) ? 1 : -1, 0);
+                rotateDirection = new Vector3(0, direction.x, 0);
 
-                _objectToRotate.transform.Rotate(direction * _rotateSpeedModifierStandalone, Space.World);
+                #if UNITY_STANDALONE
+                    rotateDirection *= _rotateSpeedModifierStandalone;
+                #else
+                    rotateDirection *= _rotateSpeedModifierMobile;
+                #endif
+                
+                _objectToRotate.transform.Rotate(rotateDirection, Space.World);
+            }
+
+            else if ((direction.y > 0 && direction.x > -0.5f && direction.x < 0.5f ||
+                      direction.y < 0 && direction.x > -0.5f && direction.x < 0.5f) &&
+                     (gesture.swipeVector.y > 1f || gesture.swipeVector.y < 1f))
+            {
+                if(((_objectToRotate.transform.eulerAngles.x >= 30f && _objectToRotate.transform.eulerAngles.x < 180f) && direction.y < 0) ||
+                   ((_objectToRotate.transform.eulerAngles.x <= 330f && _objectToRotate.transform.eulerAngles.x >= 180f) && direction.y > 0))
+                    return;
+                
+                rotateDirection = new Vector3(-direction.y, 0, 0);
+                
+                #if UNITY_STANDALONE || UNITY_EDITOR
+                    rotateDirection *= _rotateSpeedModifierStandalone;
+                #else
+                    rotateDirection *= _rotateSpeedModifierMobile;
+                #endif
+                
+                _objectToRotate.transform.Rotate(rotateDirection, Space.Self);
             }
             
-            else if ((_currentSwipe.y > 0 && _currentSwipe.x > -0.5f && _currentSwipe.x < 0.5f ||
-                     _currentSwipe.y < 0 && _currentSwipe.x > -0.5f && _currentSwipe.x < 0.5f))
-            {
-                
-                if((_objectToRotate.transform.rotation.x >= 30/360f && _currentSwipe.y > 0) || 
-                   (_objectToRotate.transform.rotation.x <= -30/360f && _currentSwipe.y < 0)) 
-                    return;
-                Vector3 direction = new Vector3((_currentSwipe.y > 0) ? 1 : -1, 0, 0);
-
-                direction *= _rotateSpeedModifierStandalone;
-                
-                
-
-                _objectToRotate.transform.Rotate(direction, Space.Self);
-            }
-        } 
+        };
     }
 }

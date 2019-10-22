@@ -6048,7 +6048,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377318371}
-  m_LocalRotation: {x: 0.44680128, y: -0, z: -0, w: 0.8946333}
+  m_LocalRotation: {x: -0.44680128, y: -0, z: -0, w: -0.8946333}
   m_LocalPosition: {x: 0, y: 43.899998, z: -43.699997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -7262,7 +7262,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 18
+  m_fontSize: 62.45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7280,7 +7280,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -8029,7 +8029,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 22.35
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -22583,7 +22583,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 21.35
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -25362,7 +25362,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 22.35
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -32198,6 +32198,7 @@ GameObject:
   - component: {fileID: 1950201323}
   - component: {fileID: 1950201322}
   - component: {fileID: 1950201325}
+  - component: {fileID: 1950201326}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -32236,7 +32237,7 @@ MonoBehaviour:
     type: 3}
   _lifeBarPrefab: {fileID: 8406501268769494566, guid: b7bfb81a5343d104388c28572affc568,
     type: 3}
-  _minionsQuantity: 100
+  _minionsQuantity: 1
   _mutationPercent: 20
   minimumSpeed: 15
   maximumSpeed: 100
@@ -32281,9 +32282,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d930380d62fb294f95a7dc7b0f02d5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotateSpeedModifierMobile: 1
+  _rotateSpeedModifierMobile: 2
   _rotateSpeedModifierStandalone: 1
   _objectToRotate: {fileID: 1407482663}
+--- !u!114 &1950201326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950201321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42241010c6f9ddc46b78abdc21d505c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: 1
+  enableRemote: 0
+  gesturePriority: 0
+  StationaryTolerance: 15
+  longTapTime: 1
+  swipeTolerance: 0.85
+  minPinchLength: 0
+  minTwistAngle: 0
+  doubleTapDetection: 0
+  doubleTapTime: 0.3
+  alwaysSendSwipe: 0
+  enable2FingersGesture: 1
+  enableTwist: 1
+  enablePinch: 1
+  enable2FingersSwipe: 1
+  twoFingerPickMethod: 0
+  touchCameras: []
+  autoSelect: 1
+  pickableLayers3D:
+    serializedVersion: 2
+    m_Bits: 1
+  enable2D: 0
+  pickableLayers2D:
+    serializedVersion: 2
+    m_Bits: 1
+  autoUpdatePickedObject: 0
+  allowUIDetection: 1
+  enableUIMode: 1
+  autoUpdatePickedUI: 0
+  enabledNGuiMode: 0
+  nGUILayers:
+    serializedVersion: 2
+    m_Bits: 0
+  nGUICameras: []
+  enableSimulation: 1
+  twistKey: 308
+  swipeKey: 306
+  showGuiInspector: 0
+  showSelectInspector: 0
+  showGestureInspector: 0
+  showTwoFingerInspector: 0
+  showSecondFingerInspector: 0
+  secondFingerTexture: {fileID: 0}
 --- !u!1001 &1950927874
 PrefabInstance:
   m_ObjectHideFlags: 0
