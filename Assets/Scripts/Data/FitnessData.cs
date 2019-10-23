@@ -13,7 +13,7 @@ public class FitnessData
     private float _speed;
     private float _originalLife;
     private float _mitigatedDamage;
-    private float _timeToFinish;
+    private float _intelligence;
 
     #endregion
     
@@ -49,10 +49,10 @@ public class FitnessData
         set => _mitigatedDamage = value;
     }
 
-    public float TimeToFinish
+    public float Intelligence
     {
-        get => _timeToFinish;
-        set => _timeToFinish = value;
+        get => _intelligence;
+        set => _intelligence = value;
     }
     
     #endregion

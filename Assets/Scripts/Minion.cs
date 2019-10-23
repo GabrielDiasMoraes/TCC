@@ -291,7 +291,7 @@ public class Minion : MonoBehaviour
         fitnessData.Speed = _data.SpeedValue;
         fitnessData.OriginalLife = _data.FullLife;
         fitnessData.MitigatedDamage = _data.MitigatedDamage;
-        fitnessData.TimeToFinish = Time.time - _initialTime; 
+        fitnessData.Intelligence = _data.Intelligence; 
         return fitnessData;
     }
     

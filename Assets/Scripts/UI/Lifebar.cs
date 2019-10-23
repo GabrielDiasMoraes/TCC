@@ -25,7 +25,6 @@ public class Lifebar : MonoBehaviour
         newPos.y = newPos.y + 6f;
         transform.position = newPos;
 
-        if (GameController.Instance.MainCamera == null) return;
         transform.LookAt(GameController.Instance.MainCamera.gameObject.transform);
 
 

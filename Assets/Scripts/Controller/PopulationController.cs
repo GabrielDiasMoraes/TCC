@@ -546,19 +546,19 @@ public class PopulationController : MonoBehaviour
             // The Smarter
             case FitnessTypes.SMARTER:
             {
-                float pBestTime = _minionsAfterWave.First().Value.TimeToFinish;
+                float pBestIntelligence = _minionsAfterWave.First().Value.Intelligence;
                 foreach (var pMinion in _minionsAfterWave)
                 {
-                    if (pMinion.Value.TimeToFinish < pBestTime)
+                    if (pMinion.Value.Intelligence > pBestIntelligence)
                     {
                         // The best time is the smaller number
-                        pBestTime = (1.0f/pMinion.Value.TimeToFinish) * 10;
+                        pBestIntelligence = pMinion.Value.Intelligence;
                     }
                 }
 
                 foreach (var pMinion in _minionsAfterWave)
                 {
-                    pMinion.Key.Fitness = pMinion.Value.TimeToFinish/pBestTime;
+                    pMinion.Key.Fitness = pMinion.Value.Intelligence/pBestIntelligence;
                 }
                 break;
             }
@@ -566,14 +566,14 @@ public class PopulationController : MonoBehaviour
             // The Smarter/Tanker
             case FitnessTypes.DEFENSE_SMARTER:
             {
-                float pBestTime = _minionsAfterWave.First().Value.TimeToFinish;
+                float pBestIntelligence = _minionsAfterWave.First().Value.Intelligence;
                 float pBestMitigatedDamage = _minionsAfterWave.First().Value.MitigatedDamage;
                 foreach (var pMinion in _minionsAfterWave)
                 {
-                    if (pMinion.Value.TimeToFinish < pBestTime)
+                    if (pMinion.Value.Intelligence > pBestIntelligence)
                     {
                         // The best time is the smaller number
-                        pBestTime = (1.0f/pMinion.Value.TimeToFinish) * 10;
+                        pBestIntelligence = pMinion.Value.Intelligence;
                     }
                     
                     if (pMinion.Value.MitigatedDamage > pBestMitigatedDamage)
@@ -584,7 +584,7 @@ public class PopulationController : MonoBehaviour
 
                 foreach (var pMinion in _minionsAfterWave)
                 {
-                    pMinion.Key.Fitness = (pMinion.Value.TimeToFinish/pBestTime * 3) + (pMinion.Value.MitigatedDamage/pBestMitigatedDamage * 1);
+                    pMinion.Key.Fitness = (pMinion.Value.Intelligence/pBestIntelligence * 3) + (pMinion.Value.MitigatedDamage/pBestMitigatedDamage * 1);
                 }
                 break;
             }
@@ -593,14 +593,14 @@ public class PopulationController : MonoBehaviour
             // The Smarter/Faster
             case FitnessTypes.SPEED_SMARTER:
             {
-                float pBestTime = _minionsAfterWave.First().Value.TimeToFinish;
+                float pBestIntelligence = _minionsAfterWave.First().Value.Intelligence;
                 float pBestSpeed = _minionsAfterWave.First().Value.Speed;
                 foreach (var pMinion in _minionsAfterWave)
                 {
-                    if (pMinion.Value.TimeToFinish < pBestTime)
+                    if (pMinion.Value.Intelligence > pBestIntelligence)
                     {
                         // The best time is the smaller number
-                        pBestTime = (1.0f/pMinion.Value.TimeToFinish) * 10;
+                        pBestIntelligence = pMinion.Value.Intelligence;
                     }
                     
                     if (pMinion.Value.Speed > pBestSpeed)
@@ -611,7 +611,7 @@ public class PopulationController : MonoBehaviour
 
                 foreach (var pMinion in _minionsAfterWave)
                 {
-                    pMinion.Key.Fitness = (pMinion.Value.TimeToFinish/pBestTime * 3) + (pMinion.Value.Speed/pBestSpeed * 1);
+                    pMinion.Key.Fitness = (pMinion.Value.Intelligence/pBestIntelligence * 3) + (pMinion.Value.Speed/pBestSpeed * 1);
                 }
                 break;
             }

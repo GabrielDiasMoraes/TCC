@@ -1,32 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using HedgehogTeam.EasyTouch;
+﻿using HedgehogTeam.EasyTouch;
 using UnityEngine;
-using TouchPhase = UnityEngine.TouchPhase;
 
 public class InputController : MonoBehaviour
 {
-    private Touch _touch;
-
-    private Vector2 _touchPosition;
-
-    private Quaternion _rotationY;
 
     [SerializeField] private float _rotateSpeedModifierMobile;
     
     [SerializeField] private float _rotateSpeedModifierStandalone;
 
     [SerializeField] private GameObject _objectToRotate;
-
-    #region Input PC
-
-    private Vector2 _firstPressPos;
-    private Vector2 _secondPressPos;
-    private Vector2 _currentSwipe;
-
-    #endregion
-    
+   
     public static InputController Instance { get; private set; }
     private void Awake()
     {
@@ -50,7 +33,7 @@ public class InputController : MonoBehaviour
             {
                 rotateDirection = new Vector3(0, direction.x, 0);
 
-                #if UNITY_STANDALONE
+                #if UNITY_STANDALONE || UNITY_EDITOR
                     rotateDirection *= _rotateSpeedModifierStandalone;
                 #else
                     rotateDirection *= _rotateSpeedModifierMobile;
