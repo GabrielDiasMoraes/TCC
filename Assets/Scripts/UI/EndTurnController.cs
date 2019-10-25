@@ -24,12 +24,12 @@ public class EndTurnController : MonoBehaviour
         _fitnessTypeSelector.options.Clear();
         
         List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
-        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.DISTANCE.ToString()));
-        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.SPEED.ToString()));
-        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.DEFENSE.ToString()));
-        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.SMARTER.ToString()));
-        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.SPEED_SMARTER.ToString()));
-        options.Add(new TMP_Dropdown.OptionData(FitnessTypes.DEFENSE_SMARTER.ToString()));
+        options.Add(new TMP_Dropdown.OptionData(GameUtility.FitnessToString(FitnessTypes.Distance)));
+        options.Add(new TMP_Dropdown.OptionData(GameUtility.FitnessToString(FitnessTypes.Speed)));
+        options.Add(new TMP_Dropdown.OptionData(GameUtility.FitnessToString(FitnessTypes.Defense)));
+        options.Add(new TMP_Dropdown.OptionData(GameUtility.FitnessToString(FitnessTypes.Smarter)));
+        options.Add(new TMP_Dropdown.OptionData(GameUtility.FitnessToString(FitnessTypes.SpeedSmarter)));
+        options.Add(new TMP_Dropdown.OptionData(GameUtility.FitnessToString(FitnessTypes.DefenseSmarter)));
         
         _fitnessTypeSelector.options.AddRange(options);
         _fitnessTypeSelector.value = 0;
@@ -41,7 +41,8 @@ public class EndTurnController : MonoBehaviour
     {
         PopulationController.Instance.ElitismTopTierPercent = _elitismTopSlider.value;
         PopulationController.Instance.ElitismBottomTierPercent = _elitismBotSlider.value;
-        FitnessTypes.TryParse(_fitnessTypeSelector.options[_fitnessTypeSelector.value].text, true, out FitnessTypes type);
+        FitnessTypes type = GameUtility.StringToFitness(_fitnessTypeSelector.options[_fitnessTypeSelector.value].text);
+        Debug.Log(type);
         PopulationController.Instance.FitnessType = type;
         PopulationController.Instance.EndTurn();
         this.gameObject.SetActive(false);

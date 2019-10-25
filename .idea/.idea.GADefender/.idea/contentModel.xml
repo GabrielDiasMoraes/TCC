@@ -206,6 +206,7 @@
             <e p="FitnessData.cs" t="Include" />
             <e p="MinionData.cs" t="Include" />
           </e>
+          <e p="GameUtility.cs" t="Include" />
           <e p="Minion.cs" t="Include" />
           <e p="Tower.cs" t="Include" />
           <e p="Types" t="Include">

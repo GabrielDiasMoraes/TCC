@@ -11,8 +11,10 @@ public class GameController : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI _turnsTextMeshProUgui;
 
-    public TextMeshProUGUI MinionsCount => _minionsCount;
+    [SerializeField] private GameObject _pausePanel;
 
+    private float saveTimeScale;
+    
     public TextMeshProUGUI MinionsCountToWin => _minionsCountToWin;
 
     public TextMeshProUGUI TurnsTextMeshProUgui => _turnsTextMeshProUgui;
@@ -21,7 +23,7 @@ public class GameController : MonoBehaviour
 
     public Camera MainCamera => _mainCamera;
 
-    private bool isFastmode;
+    private bool isFastmode, isPaused;
     
     private void Awake()
     {
@@ -37,6 +39,7 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         _mainCamera = Camera.main;
+        isPaused = false;
     }
 
     public void SpeedUpGame()
@@ -46,6 +49,25 @@ public class GameController : MonoBehaviour
         else
             Time.timeScale = 1f;
         isFastmode = !isFastmode;
+    }
+
+    public void PauseGame()
+    {
+        if (isPaused)
+        {
+            Time.timeScale = saveTimeScale;
+            _pausePanel.SetActive(false);
+        }
+        else
+        {
+            _pausePanel.SetActive(true);
+            saveTimeScale = Time.timeScale;
+            Time.timeScale = 0;
+        }
+
+        isPaused = !isPaused;
+
+
     }
     
     

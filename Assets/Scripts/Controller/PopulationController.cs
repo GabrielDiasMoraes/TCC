@@ -265,8 +265,6 @@ public class PopulationController : MonoBehaviour
             _minionsToAwake.Add(CreateMinion());
         }
 
-        GameController.Instance.MinionsCount.text = _minionsQuantity + "/" + _minionsQuantity;
-        GameController.Instance.MinionsCountToWin.text = "0/" + _minionsToWinQnty;
         GameController.Instance.TurnsTextMeshProUgui.text = roundsQntyCount + "/" + roundsQnty;
     }
 
@@ -388,12 +386,11 @@ public class PopulationController : MonoBehaviour
         if (bDied)
         {
             diedMinions++;
-            GameController.Instance.MinionsCount.text = _minionsQuantity - diedMinions + "/" + _minionsQuantity;
         }
         else
         {
             reachEndMinions++;
-            GameController.Instance.MinionsCountToWin.text = reachEndMinions + "/" + _minionsToWinQnty;
+            GameController.Instance.MinionsCountToWin.text = (Math.Max(_minionsToWinQnty - reachEndMinions, 0)).ToString();
         }
     }
 
@@ -407,42 +404,20 @@ public class PopulationController : MonoBehaviour
         diedMinions = 0;
         reachEndMinions = 0;
         
-        GameController.Instance.MinionsCountToWin.text = reachEndMinions + "/" + _minionsToWinQnty;
-        GameController.Instance.MinionsCount.text = _minionsQuantity - diedMinions + "/" + _minionsQuantity;
+        GameController.Instance.MinionsCountToWin.text = (Math.Max(_minionsToWinQnty - reachEndMinions, 0)).ToString();
         
-        StringBuilder sb = new StringBuilder("");
         int i = 0;
         List<MinionData> _minionsAfterWaveList = SortMinions(_minionsAfterWave);
         
         _minionsAfterWave.Clear();
             
-        Debug.Log("DO ELITIZATION");
         _minionsAfterWaveList = Elitization(_minionsAfterWaveList);
             
-        Debug.Log("DO CROSSOVEEEER");
         Crossover(_minionsAfterWaveList);
         i = 0;
 
-        sb.Clear();
-        foreach (var pMinion in _minionsFromCrossover)
-        {
-            sb.Append(i + " : " + pMinion.ToString());
-            sb.AppendLine();
-            i++;
-        }
-        Debug.Log(sb.ToString());
-
-        sb.Clear();
-        Debug.Log("DO MUTATION");
         Mutation();
         i = 0;
-        foreach (var pMinion in _minionsFromCrossover)
-        {
-            sb.Append(i + " : " + pMinion.ToString());
-            sb.AppendLine();
-            i++;
-        }
-        Debug.Log(sb.ToString());
 
         TransformToGameObject(_minionsFromCrossover);
 
@@ -480,15 +455,6 @@ public class PopulationController : MonoBehaviour
     public void CalculateFitness()
     {
         DoCalculateFitness(fitnessType);
-        int i = 0;
-        StringBuilder sb = new StringBuilder("");
-        foreach (var pMinion in _minionsAfterWave)
-        {
-            sb.Append(i + " : " + pMinion.Key.Fitness);
-            sb.AppendLine();
-            i++;
-        }
-        Debug.Log(sb.ToString());
     }
 
     public void DoCalculateFitness(FitnessTypes type)
@@ -496,7 +462,7 @@ public class PopulationController : MonoBehaviour
         switch (type)
         {
             // Only the best in distance and life remaining
-            case FitnessTypes.DISTANCE:
+            case FitnessTypes.Distance:
             {
                 foreach (var pMinion in _minionsAfterWave)
                 {
@@ -506,7 +472,7 @@ public class PopulationController : MonoBehaviour
             }
 
             // The Faster
-            case FitnessTypes.SPEED:
+            case FitnessTypes.Speed:
             {
                 float pBestSpeed = _minionsAfterWave.First().Value.Speed;
                 foreach (var pMinion in _minionsAfterWave)
@@ -525,7 +491,7 @@ public class PopulationController : MonoBehaviour
             }
 
             // The "Tanker"
-            case FitnessTypes.DEFENSE:
+            case FitnessTypes.Defense:
             {
                 float pBestMitigatedDamage = _minionsAfterWave.First().Value.MitigatedDamage;
                 foreach (var pMinion in _minionsAfterWave)
@@ -544,7 +510,7 @@ public class PopulationController : MonoBehaviour
             }
 
             // The Smarter
-            case FitnessTypes.SMARTER:
+            case FitnessTypes.Smarter:
             {
                 float pBestIntelligence = _minionsAfterWave.First().Value.Intelligence;
                 foreach (var pMinion in _minionsAfterWave)
@@ -564,7 +530,7 @@ public class PopulationController : MonoBehaviour
             }
             
             // The Smarter/Tanker
-            case FitnessTypes.DEFENSE_SMARTER:
+            case FitnessTypes.DefenseSmarter:
             {
                 float pBestIntelligence = _minionsAfterWave.First().Value.Intelligence;
                 float pBestMitigatedDamage = _minionsAfterWave.First().Value.MitigatedDamage;
@@ -591,7 +557,7 @@ public class PopulationController : MonoBehaviour
             
             
             // The Smarter/Faster
-            case FitnessTypes.SPEED_SMARTER:
+            case FitnessTypes.SpeedSmarter:
             {
                 float pBestIntelligence = _minionsAfterWave.First().Value.Intelligence;
                 float pBestSpeed = _minionsAfterWave.First().Value.Speed;

@@ -147,6 +147,7 @@
     <Compile Include="Assets\Scripts\Controller\PopulationController.cs" />
     <Compile Include="Assets\Scripts\Data\FitnessData.cs" />
     <Compile Include="Assets\Scripts\Data\MinionData.cs" />
+    <Compile Include="Assets\Scripts\GameUtility.cs" />
     <Compile Include="Assets\Scripts\Minion.cs" />
     <Compile Include="Assets\Scripts\Tower.cs" />
     <Compile Include="Assets\Scripts\Types\AbilityTypes.cs" />
