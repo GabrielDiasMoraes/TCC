@@ -211,7 +211,7 @@ public class PopulationController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
     }
 
@@ -266,6 +266,7 @@ public class PopulationController : MonoBehaviour
         }
 
         GameController.Instance.TurnsTextMeshProUgui.text = roundsQntyCount + "/" + roundsQnty;
+        GameController.Instance.MinionsCountToWin.text = (Math.Max(_minionsToWinQnty - reachEndMinions, 0)).ToString();
     }
 
     private void Update()

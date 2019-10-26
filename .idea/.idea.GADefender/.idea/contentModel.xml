@@ -198,6 +198,7 @@
         <e p="Scripts" t="Include">
           <e p="CommonShootScript.cs" t="Include" />
           <e p="Controller" t="Include">
+            <e p="DataController.cs" t="Include" />
             <e p="GameController.cs" t="Include" />
             <e p="InputController.cs" t="Include" />
             <e p="PopulationController.cs" t="Include" />
@@ -207,6 +208,11 @@
             <e p="MinionData.cs" t="Include" />
           </e>
           <e p="GameUtility.cs" t="Include" />
+          <e p="JSON" t="Include">
+            <e p="SimpleJSON.cs" t="Include" />
+            <e p="SimpleJSONBinary.cs" t="Include" />
+            <e p="SimpleJSONUnity.cs" t="Include" />
+          </e>
           <e p="Minion.cs" t="Include" />
           <e p="Tower.cs" t="Include" />
           <e p="Types" t="Include">
@@ -214,6 +220,7 @@
             <e p="FitnessTypes.cs" t="Include" />
           </e>
           <e p="UI" t="Include">
+            <e p="ButtonUIHandler.cs" t="Include" />
             <e p="EndTurnController.cs" t="Include" />
             <e p="Lifebar.cs" t="Include" />
           </e>
