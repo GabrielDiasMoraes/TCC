@@ -221,6 +221,7 @@
           </e>
           <e p="UI" t="Include">
             <e p="ButtonUIHandler.cs" t="Include" />
+            <e p="ButtonUIHandlerScene.cs" t="Include" />
             <e p="EndTurnController.cs" t="Include" />
             <e p="Lifebar.cs" t="Include" />
           </e>

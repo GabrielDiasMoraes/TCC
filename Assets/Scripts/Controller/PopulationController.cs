@@ -213,6 +213,8 @@ public class PopulationController : MonoBehaviour
             Instance = this;
             //DontDestroyOnLoad(gameObject);
         }
+
+        Time.timeScale = 1;
     }
 
     private void Start()

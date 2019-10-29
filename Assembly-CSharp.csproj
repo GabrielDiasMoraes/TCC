@@ -157,6 +157,7 @@
     <Compile Include="Assets\Scripts\Types\AbilityTypes.cs" />
     <Compile Include="Assets\Scripts\Types\FitnessTypes.cs" />
     <Compile Include="Assets\Scripts\UI\ButtonUIHandler.cs" />
+    <Compile Include="Assets\Scripts\UI\ButtonUIHandlerScene.cs" />
     <Compile Include="Assets\Scripts\UI\EndTurnController.cs" />
     <Compile Include="Assets\Scripts\UI\Lifebar.cs" />
     <Compile Include="Assets\Village\LowPoly\Medieval\Village\Scripts\ContainerOpener.cs" />

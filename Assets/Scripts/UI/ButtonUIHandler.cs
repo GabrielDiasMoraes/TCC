@@ -13,6 +13,7 @@ public class ButtonUIHandler : MonoBehaviour
 
     private void Start()
     {
+        GetComponent<Button>().onClick.RemoveAllListeners();
         GetComponent<Button>().onClick.AddListener(this.ActivatePanel);
     }
 
