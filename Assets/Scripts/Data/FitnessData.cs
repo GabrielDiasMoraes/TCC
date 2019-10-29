@@ -14,6 +14,7 @@ public class FitnessData
     private float _originalLife;
     private float _mitigatedDamage;
     private float _intelligence;
+    private float _defense;
 
     #endregion
     
@@ -54,7 +55,13 @@ public class FitnessData
         get => _intelligence;
         set => _intelligence = value;
     }
-    
+
+    public float Defense
+    {
+        get { return _defense; }
+        set { _defense = value; }
+    }
+
     #endregion
     
 
