@@ -61,6 +61,10 @@ public class PopulationController : MonoBehaviour
     [SerializeField] private int _minionsToWinQnty;
     
     [SerializeField] private int roundsQnty;
+
+    [SerializeField] private int turnsToOneStar;
+    [SerializeField] private int turnsToTwoStar;
+    [SerializeField] private int turnsToTreeStar;
     
     private GameObject _endTurnWindow;
     
@@ -228,6 +232,8 @@ public class PopulationController : MonoBehaviour
         _endTurnWindow = Instantiate(_endTurnWindowPrefab);
         _endTurnWindow.SetActive(false);
 
+        _minionsQuantity += (DataController.Instance.HasMinionAddition.Value)? 10 : 0;
+
     }
 
     private void Initialize()
@@ -356,7 +362,14 @@ public class PopulationController : MonoBehaviour
 
     private float GenerateRandomSpeed()
     {
-        return Random.Range(minimumSpeed, maximumSpeed);
+        float speed = Random.Range(minimumSpeed, maximumSpeed);
+        if (DataController.Instance.OwnedAbilities.Contains(AbilityTypes.Speed_Plus_1))
+            speed += speed * 0.1f;
+        if(DataController.Instance.OwnedAbilities.Contains(AbilityTypes.Speed_Plus_2))
+            speed += speed * 0.1f;    
+        if(DataController.Instance.OwnedAbilities.Contains(AbilityTypes.Speed_Plus_3))
+            speed += speed * 0.1f;
+        return speed;
     }
 
     private float GenerateRandomIntelligence()
@@ -371,7 +384,15 @@ public class PopulationController : MonoBehaviour
 
     private int GenerateRandomLife()
     {
-        return Random.Range(minimumLife, maximumLife);
+        int life = Random.Range(minimumLife, maximumLife);
+
+        if (DataController.Instance.OwnedAbilities.Contains(AbilityTypes.Life_Plus_1))
+            life += Mathf.RoundToInt(life * 0.1f);
+        if(DataController.Instance.OwnedAbilities.Contains(AbilityTypes.Life_Plus_2))
+            life += Mathf.RoundToInt(life * 0.1f);    
+        if(DataController.Instance.OwnedAbilities.Contains(AbilityTypes.Life_Plus_3))
+            life += Mathf.RoundToInt(life * 0.1f);
+        return life;
     }
 
     // Todo
@@ -386,9 +407,18 @@ public class PopulationController : MonoBehaviour
     public void SaveMinion(MinionData pData, FitnessData pFitnessData, bool bDied = false)
     {
         _minionsAfterWave[pData] = pFitnessData;
+        bool bDisplayEndTurnSelection = false;
         if (_minionsAfterWave.Count >= (_minionsToAwake.Count + _aliveMinions.Count))
         {
-            DisplayEndTurnSelection();
+            if(roundsQntyCount < roundsQnty) {}
+            else // Last Turn and dont win
+            {
+                GameController.Instance.SetEndTurn(roundsQntyCount, turnsToOneStar, turnsToTwoStar, turnsToTreeStar,roundsQnty);
+                GameController.Instance.PauseGame(true);
+                return;
+            }
+
+            bDisplayEndTurnSelection = true;
         }
 
         if (bDied)
@@ -399,7 +429,16 @@ public class PopulationController : MonoBehaviour
         {
             reachEndMinions++;
             GameController.Instance.MinionsCountToWin.text = (Math.Max(_minionsToWinQnty - reachEndMinions, 0)).ToString();
+            if (reachEndMinions < _minionsToWinQnty) {}// Continue
+            else { // Win
+                GameController.Instance.SetEndTurn(roundsQntyCount, turnsToOneStar, turnsToTwoStar, turnsToTreeStar,roundsQnty);
+                GameController.Instance.PauseGame(true);
+                return;
+            }
         }
+        
+        if(!bDisplayEndTurnSelection) return;
+        DisplayEndTurnSelection();
     }
 
     private void DisplayEndTurnSelection()
@@ -431,6 +470,7 @@ public class PopulationController : MonoBehaviour
 
         roundsQntyCount++;
         GameController.Instance.TurnsTextMeshProUgui.text = roundsQntyCount + "/" + roundsQnty;
+        
     }
 
     public void TransformToGameObject(List<MinionData> pMinions)

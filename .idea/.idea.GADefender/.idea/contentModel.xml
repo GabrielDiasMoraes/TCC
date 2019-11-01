@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Gabriel\.Rider2018.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Gabriel\.Rider2018.2\system\resharper-host\local\Transient\ReSharperHost\v182\SolutionCaches\_GADefender.333257045.00" t="ExcludeRecursive" />
-    <e p="D:\Gabriel\TCC" t="IncludeRecursive">
+    <e p="C:\Users\morae\.Rider2018.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\morae\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_GADefender.-1711254114.00" t="ExcludeRecursive" />
+    <e p="C:\Users\morae\Documents\UnityProjects\Personal\TCC\GADefender" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="ConfigComponent.cs" t="Include" />
         <e p="EasyTouchBundle" t="Include">
           <e p="EasyTouch" t="Include">
             <e p="_Documentation" t="Include">
@@ -195,6 +196,8 @@
             </e>
           </e>
         </e>
+        <e p="LevelComponent.cs" t="Include" />
+        <e p="PointComponent.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="CommonShootScript.cs" t="Include" />
           <e p="Controller" t="Include">
@@ -222,8 +225,10 @@
           <e p="UI" t="Include">
             <e p="ButtonUIHandler.cs" t="Include" />
             <e p="ButtonUIHandlerScene.cs" t="Include" />
+            <e p="ButtonUIUpgradesHandler.cs" t="Include" />
             <e p="EndTurnController.cs" t="Include" />
             <e p="Lifebar.cs" t="Include" />
+            <e p="UpgradeController.cs" t="Include" />
           </e>
         </e>
         <e p="TextMesh Pro" t="Include">

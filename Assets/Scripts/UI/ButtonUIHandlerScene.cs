@@ -19,6 +19,7 @@ public class ButtonUIHandlerScene : MonoBehaviour
       {
          if (_panelToActivate != null) _panelToActivate.SetActive(true);
          if(string.IsNullOrEmpty(sceneValue)) return;
+         DataController.Instance.CurrentLevel = sceneValue;
          SceneManager.LoadScene(sceneValue);
       });
    }

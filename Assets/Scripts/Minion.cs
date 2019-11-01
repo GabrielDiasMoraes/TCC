@@ -193,7 +193,7 @@ public class Minion : MonoBehaviour
         
         
         
-        if (wrongDestCooldown >= 2f && !isGoingWrongDest)
+        if (wrongDestCooldown >= 2f && !isGoingWrongDest && !DataController.Instance.HasIntelligenceBonus.Value)
         {
             bool goWrongDest = true;
             if (_data.Intelligence > 1)
@@ -244,6 +244,12 @@ public class Minion : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        int difficulty = DataController.Instance.CurrentDifficulty; 
+        if(difficulty == 0) {}
+        else
+        {
+            damage = (difficulty == -1)? damage - damage*0.1f: damage + damage*0.2f;
+        }
         float tEndDamage = (damage * (float)_data.DefPoints / 100);
         _data.LifePoints -= tEndDamage;
         _lifeBar.Slider.value = Mathf.Max(0, _data.LifePoints);

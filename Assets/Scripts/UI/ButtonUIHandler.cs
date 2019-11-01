@@ -10,10 +10,13 @@ public class ButtonUIHandler : MonoBehaviour
     
     [SerializeField] private GameObject _panelToDeactivate;
 
-
+    [SerializeField] private bool isAdditive;
+    
+    
     private void Start()
     {
-        GetComponent<Button>().onClick.RemoveAllListeners();
+        if(!isAdditive)
+            GetComponent<Button>().onClick.RemoveAllListeners();
         GetComponent<Button>().onClick.AddListener(this.ActivatePanel);
     }
 
