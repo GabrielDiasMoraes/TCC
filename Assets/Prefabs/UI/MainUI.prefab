@@ -658,7 +658,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57000005, y: 0}
-  m_AnchorMax: {x: 1, y: 0.9659932}
+  m_AnchorMax: {x: 0.9186058, y: 0.9659932}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -688,7 +688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6a8411338fe20d14493c22ad8b7ec13a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7316b034de0199d4888be594fff478cf, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -885,7 +885,7 @@ GameObject:
   - component: {fileID: 4921927379914341939}
   - component: {fileID: 4921927379914341938}
   m_Layer: 5
-  m_Name: Heart
+  m_Name: Flag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

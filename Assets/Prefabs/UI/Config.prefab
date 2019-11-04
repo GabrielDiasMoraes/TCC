@@ -1465,6 +1465,7 @@ GameObject:
   - component: {fileID: 2357967275016910848}
   - component: {fileID: 2357967275016910849}
   - component: {fileID: 2357967275016910854}
+  - component: {fileID: 1103512713}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1567,6 +1568,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1103512713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357967275016910852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da4b880c893cf84eb11c46d78a0d378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _panelToActivate: {fileID: 0}
+  _panelToDeactivate: {fileID: 2357967275058699951}
+  isAdditive: 1
 --- !u!1 &2357967275058699951
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,7 +1609,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2357967275058699951}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2102,7 +2118,7 @@ GameObject:
   - component: {fileID: 2357967275321957268}
   - component: {fileID: 2357967275321957269}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Dificulty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2616,7 +2632,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _panelToActivate: {fileID: 0}
-  _panelToDeactivate: {fileID: 0}
+  _panelToDeactivate: {fileID: 2357967275058699951}
+  isAdditive: 0
 --- !u!1 &8980424968982723305
 GameObject:
   m_ObjectHideFlags: 0

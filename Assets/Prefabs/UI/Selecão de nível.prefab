@@ -128,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panelToActivate: {fileID: 0}
   _panelToDeactivate: {fileID: 0}
+  isAdditive: 0
 --- !u!1 &1661764457309775518
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,7 +650,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4ce557cc090bf604999f084d5c52f88c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f7a48d9a872df3046bfba1e89d455732, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 0
@@ -971,7 +972,7 @@ MonoBehaviour:
   m_fontSizeMin: 36
   m_fontSizeMax: 200
   m_fontStyle: 0
-  m_textAlignment: 258
+  m_textAlignment: 260
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -1002,7 +1003,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -86.72327, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2756395726909965239}
     characterCount: 1
