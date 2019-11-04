@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Gabriel\.Rider2018.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Gabriel\.Rider2018.2\system\resharper-host\Local\Transient\ReSharperHost\v182\SolutionCaches\_TCC.1382035562.00" t="ExcludeRecursive" />
+    <e p="D:\Gabriel\TCC" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="EasyTouchBundle" t="Include">
+          <e p="EasyTouch" t="Include">
+            <e p="_Documentation" t="Include">
+              <e p="How to migrate from EasyTouch 4.X.txt" t="Include" />
+            </e>
+            <e p="Plugins" t="Include">
+              <e p="Components" t="Include">
+                <e p="EasyTouchTrigger.cs" t="Include" />
+                <e p="QuickBase.cs" t="Include" />
+                <e p="QuickDrag.cs" t="Include" />
+                <e p="QuickEnterOverExist.cs" t="Include" />
+                <e p="QuickLongTap.cs" t="Include" />
+                <e p="QuickPinch.cs" t="Include" />
+                <e p="QuickSwipe.cs" t="Include" />
+                <e p="QuickTap.cs" t="Include" />
+                <e p="QuickTouch.cs" t="Include" />
+                <e p="QuickTwist.cs" t="Include" />
+              </e>
+              <e p="Engine" t="Include">
+                <e p="BaseFinger.cs" t="Include" />
+                <e p="EasyTouch.cs" t="Include" />
+                <e p="EasyTouchInput.cs" t="Include" />
+                <e p="ECamera.cs" t="Include" />
+                <e p="Finger.cs" t="Include" />
+                <e p="Gesture.cs" t="Include" />
+                <e p="TwoFingerGesture.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="EasyTouchControls" t="Include">
+            <e p="Component" t="Include">
+              <e p="ETCSetDirectActionTransform.cs" t="Include" />
+            </e>
+            <e p="Documentation" t="Include">
+              <e p="Version 2.0.txt" t="Include" />
+            </e>
+            <e p="Examples" t="Include">
+              <e p="_Medias" t="Include">
+                <e p="SliderText.cs" t="Include" />
+              </e>
+              <e p="Version 1.X" t="Include">
+                <e p="Button-Event-Input" t="Include">
+                  <e p="ButtonInputUI.cs" t="Include" />
+                  <e p="ButtonUIEvent.cs" t="Include" />
+                </e>
+                <e p="ControlEventInput" t="Include">
+                  <e p="ControlUIEvent.cs" t="Include" />
+                  <e p="ControlUIInput.cs" t="Include" />
+                </e>
+                <e p="DPadClassicalTime" t="Include">
+                  <e p="DPadParameterUI.cs" t="Include" />
+                </e>
+                <e p="FPSExample" t="Include">
+                  <e p="FPSPlayerControl.cs" t="Include" />
+                  <e p="ImpactEffect.cs" t="Include" />
+                </e>
+                <e p="JoystickParameter" t="Include">
+                  <e p="AxisXUi.cs" t="Include" />
+                </e>
+                <e p="LoadLevelScript.cs" t="Include" />
+                <e p="TouchPad-Event-Input" t="Include">
+                  <e p="TouchPadUIEvent.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Version 2.X_New Features" t="Include">
+                <e p="Script" t="Include">
+                  <e p="CharacterAnimation.cs" t="Include" />
+                  <e p="CharacterAnimationDungeon.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="Issues in button behavior (MAC).txt" t="Include" />
+            <e p="Plugins" t="Include">
+              <e p="ComponentExtensions.cs" t="Include" />
+              <e p="ETCArea.cs" t="Include" />
+              <e p="ETCAxis.cs" t="Include" />
+              <e p="ETCBase.cs" t="Include" />
+              <e p="ETCButton.cs" t="Include" />
+              <e p="ETCDPad.cs" t="Include" />
+              <e p="ETCInput.cs" t="Include" />
+              <e p="ETCJoystick.cs" t="Include" />
+              <e p="ETCTouchPad.cs" t="Include" />
+            </e>
+            <e p="ReleaseNotes.txt" t="Include" />
+          </e>
+        </e>
+        <e p="EffectExamples" t="Include">
+          <e p="Shared" t="Include">
+            <e p="Scripts" t="Include">
+              <e p="DecalDestroyer.cs" t="Include" />
+              <e p="ExtinguishableFire.cs" t="Include" />
+              <e p="GunAim.cs" t="Include" />
+              <e p="GunShoot.cs" t="Include" />
+              <e p="ParticleCollision.cs" t="Include" />
+              <e p="ParticleExamples.cs" t="Include" />
+              <e p="ParticleMenu.cs" t="Include" />
+            </e>
+            <e p="Shaders" t="Include">
+              <e p="SurfaceShader_VC.shader" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="CommonShootScript.cs" t="Include" />
+          <e p="ConfigComponent.cs" t="Include" />
+          <e p="Controller" t="Include">
+            <e p="DataController.cs" t="Include" />
+            <e p="GameController.cs" t="Include" />
+            <e p="InputController.cs" t="Include" />
+            <e p="PopulationController.cs" t="Include" />
+          </e>
+          <e p="Data" t="Include">
+            <e p="FitnessData.cs" t="Include" />
+            <e p="MinionData.cs" t="Include" />
+          </e>
+          <e p="GameUtility.cs" t="Include" />
+          <e p="JSON" t="Include">
+            <e p="SimpleJSON.cs" t="Include" />
+            <e p="SimpleJSONBinary.cs" t="Include" />
+            <e p="SimpleJSONUnity.cs" t="Include" />
+          </e>
+          <e p="LevelComponent.cs" t="Include" />
+          <e p="Minion.cs" t="Include" />
+          <e p="PointComponent.cs" t="Include" />
+          <e p="Tower.cs" t="Include" />
+          <e p="Types" t="Include">
+            <e p="AbilityTypes.cs" t="Include" />
+            <e p="FitnessTypes.cs" t="Include" />
+          </e>
+          <e p="UI" t="Include">
+            <e p="ButtonUIHandler.cs" t="Include" />
+            <e p="ButtonUIHandlerScene.cs" t="Include" />
+            <e p="ButtonUIUpgradesHandler.cs" t="Include" />
+            <e p="EndTurnController.cs" t="Include" />
+            <e p="Lifebar.cs" t="Include" />
+            <e p="UpgradeController.cs" t="Include" />
+          </e>
+        </e>
+        <e p="TextMesh Pro" t="Include">
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
+            </e>
+          </e>
+          <e p="Sprites" t="Include">
+            <e p="EmojiOne Attribution.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Village" t="Include">
+          <e p="LowPoly" t="Include">
+            <e p="Medieval" t="Include">
+              <e p="Misc" t="Include">
+                <e p="Shaders" t="Include">
+                  <e p="EmissionShader.shader" t="Include" />
+                </e>
+              </e>
+              <e p="Village" t="Include">
+                <e p="Scripts" t="Include">
+                  <e p="ContainerOpener.cs" t="Include" />
+                  <e p="InfiniteRotator.cs" t="Include" />
+                  <e p="ToggleScript.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Materials" t="Include">
+            <e p="Shaders" t="Include">
+              <e p="DiffuseVertexColor.shader" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="TCC.sln" t="IncludeFlat" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>
