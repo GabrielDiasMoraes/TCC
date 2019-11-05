@@ -10,3 +10,12 @@
 /Temp/UnityTempFile-786f53056409e4c4c9ee7363644e54bd
 /Temp/UnityTempFile-8528ec62c84b9314597b2dd1df5ff01d
 /Temp/UnityTempFile-ef02cef82d8f05849b5d3093b44a8209
+Library
+.idea
+Logs
+obj
+GADefender.sln.DotSettings.user
+TCC.sln
+Assembly-CSharp.csproj
+Assembly-CSharp-Editor.csproj
+GADefender.sln
