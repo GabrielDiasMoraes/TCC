@@ -41,7 +41,8 @@ public class ButtonUIUpgradesHandler : MonoBehaviour
             if (needsToUnlock != AbilityTypes.None)
             {
                 bool bIsInteractable = (DataController.Instance.OwnedAbilities.Contains(needsToUnlock));
-                bIsInteractable = (bIsInteractable)? !DataController.Instance.OwnedAbilities.Contains(abilityType): bIsInteractable;
+                bIsInteractable = (bIsInteractable) && !DataController.Instance.OwnedAbilities.Contains(abilityType);
+                bIsInteractable = (bIsInteractable) && DataController.Instance.CurrentPoints >= _price;
                 _btnBuy.interactable = bIsInteractable;
             }
             else

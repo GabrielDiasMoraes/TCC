@@ -30,6 +30,8 @@ public class Minion : MonoBehaviour
     [SerializeField]
     private Renderer _renderer;
 
+    [SerializeField] private ParticleSystem _shield;
+
     private bool _reachEnd;
 
     private float _timepassed;
@@ -40,11 +42,13 @@ public class Minion : MonoBehaviour
 
     private float wrongDestTime, wrongDestCooldown;
 
+    private bool _isInvencible;
+
     [SerializeField] private GameObject aliveModel;
 
     [SerializeField] private GameObject deadModel;
 
-    [SerializeField] private List<Renderer> _deadFragmentRenderers; 
+    [SerializeField] private List<Renderer> _deadFragmentRenderers;
     
     #endregion
 
@@ -79,9 +83,13 @@ public class Minion : MonoBehaviour
     public MinionData Data
     {
         get => _data;
-        set => _data = value;
+        set
+        {
+            _data = value;
+            SetReferencesInAbilities();
+        }
     }
-    
+
     public bool isAlive => _data.LifePoints > 0;
 
     public Lifebar LifeBar
@@ -121,6 +129,12 @@ public class Minion : MonoBehaviour
         get => _data.DefPoints;
         set => _data.DefPoints = value;
     }
+    
+    public float Intelligence
+    {
+        get => _data.Intelligence;
+        set => _data.Intelligence = value;
+    }
 
     public float SpeedValue
     {
@@ -128,7 +142,7 @@ public class Minion : MonoBehaviour
         set => _data.SpeedValue = value;
     }
 
-    public List<AbilityTypes> Abilities
+    public List<IAbility> Abilities
     {
         get => _data.Abilities;
         set => _data.Abilities = value;
@@ -145,7 +159,13 @@ public class Minion : MonoBehaviour
         get => _destination;
         set => _destination = value;
     }
-    
+
+    public bool IsInvencible
+    {
+        get => _isInvencible;
+        set => _isInvencible = value;
+    }
+
     #endregion
 
     void Start()
@@ -155,7 +175,13 @@ public class Minion : MonoBehaviour
         wrongDestTime = 0;
         isGoingWrongDest = false;
         _lifeBar.gameObject.SetActive(true);
-        
+        _isInvencible = false;
+        navMeshAgent.updateRotation = false;
+    }
+
+    private void Update()
+    {
+        ExecuteAbilities();
     }
 
     private void LateUpdate()
@@ -196,9 +222,9 @@ public class Minion : MonoBehaviour
         if (wrongDestCooldown >= 2f && !isGoingWrongDest && !DataController.Instance.HasIntelligenceBonus.Value)
         {
             bool goWrongDest = true;
-            if (_data.Intelligence > 1)
+            if (_data.Intelligence < 10)
             {
-                int val = Random.Range(1, 10);
+                int val = Random.Range(0, 10);
                 goWrongDest = val >= _data.Intelligence;
             }
 
@@ -214,6 +240,7 @@ public class Minion : MonoBehaviour
         wrongDestCooldown += Time.deltaTime;
         if(!_animator.isActiveAndEnabled) return;
         _animator.Play(navMeshAgent.velocity.magnitude > 0 ? "Idle" : "Stopped");
+        transform.rotation = Quaternion.LookRotation(navMeshAgent.velocity.normalized);
     }
 
     public Vector3 GenerateWrongDestination()
@@ -250,7 +277,7 @@ public class Minion : MonoBehaviour
         {
             damage = (difficulty == -1)? damage - damage*0.1f: damage + damage*0.2f;
         }
-        float tEndDamage = (damage * (float)_data.DefPoints / 100);
+        float tEndDamage = (_isInvencible)? 0 :(damage * (float)_data.DefPoints / 100);
         _data.LifePoints -= tEndDamage;
         _lifeBar.Slider.value = Mathf.Max(0, _data.LifePoints);
         _data.MitigatedDamage += damage - tEndDamage;
@@ -300,6 +327,31 @@ public class Minion : MonoBehaviour
         fitnessData.Defense = _data.DefPoints;
         fitnessData.Intelligence = _data.Intelligence; 
         return fitnessData;
+    }
+    
+    /// <summary>AddAbility is used to give the minion (Ooze) a new Ability.</summary>
+    public void AddAbility(IAbility newAbility)
+    {
+        if (newAbility == null) return;
+        if (Abilities.Contains(newAbility)) return;
+        newAbility.AddMinion(this, _shield);
+        _data.AddAbility(newAbility);
+    }
+
+    public void SetReferencesInAbilities()
+    {
+        foreach (var ability in _data.Abilities)
+        {
+            ability.AddMinion(this, _shield);
+        }
+    }
+
+    private void ExecuteAbilities()
+    {
+        foreach (var ability in Abilities)
+        {
+            ability.Execute();
+        }
     }
     
 }

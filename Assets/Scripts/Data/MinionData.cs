@@ -13,7 +13,7 @@ public class MinionData
     private float _speedValue; //
     private float _intelligence; //
     private float _fitness;
-    private List<AbilityTypes> _abilities;
+    private List<IAbility> _abilities;
     private Color _color;
     #endregion
     
@@ -49,9 +49,9 @@ public class MinionData
         set => _speedValue = value;
     }
 
-    public List<AbilityTypes> Abilities
+    public List<IAbility> Abilities
     {
-        get => _abilities;
+        get => _abilities ?? (_abilities = new List<IAbility>());
         set => _abilities = value;
     }
 
@@ -83,6 +83,12 @@ public class MinionData
         builder.Append("\nArmor: " + _defPoints);
         builder.Append("\nIntelligence: " + _intelligence);
         return builder.ToString();
+    }
+    public void AddAbility(IAbility newAbility)
+    {
+        if (newAbility == null) return;
+        if (Abilities.Contains(newAbility)) return;
+        Abilities.Add(newAbility);
     }
 
     public MinionData()

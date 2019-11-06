@@ -76,7 +76,7 @@ public class PopulationController : MonoBehaviour
 
     [SerializeField]
     private float timeBetweenSpawn;
-
+    
     private float _mBestLife;
     private float _mBestSpeed;
     private float _mBestDefense;
@@ -85,6 +85,30 @@ public class PopulationController : MonoBehaviour
     #endregion
     
     #region Properties
+
+    public float BestLife
+    {
+        get => _mBestLife;
+        set => _mBestLife = value;
+    }
+
+    public float BestSpeed
+    {
+        get => _mBestSpeed;
+        set => _mBestSpeed = value;
+    }
+
+    public float BestDefense
+    {
+        get => _mBestDefense;
+        set => _mBestDefense = value;
+    }
+
+    public float BestIntelligence
+    {
+        get => _mBestIntelligence;
+        set => _mBestIntelligence = value;
+    }
 
     public int MinionsQuantity
     {
@@ -294,6 +318,7 @@ public class PopulationController : MonoBehaviour
     }
 
 
+    /// <summary>Create the Minion GameObject.</summary>
     private GameObject CreateMinion()
     {
         GameObject temp = Instantiate(_minionPrefab, initPoint.position, Quaternion.identity);
@@ -309,6 +334,7 @@ public class PopulationController : MonoBehaviour
         return temp;
     }
 
+    /// <summary>Enable the next Minion GameObject in the List</summary>
     private void AwakeMinion()
     {
         if (_minionsToAwake.Count > 0)
@@ -340,7 +366,11 @@ public class PopulationController : MonoBehaviour
 
                 tempMinion.DefPoints = GenerateRandomDefense();
 
-                tempMinion.InitialLife = tempMinion.LifePoints = GenerateRandomLife();                       
+                tempMinion.InitialLife = tempMinion.LifePoints = GenerateRandomLife();
+
+                tempMinion.Intelligence = GenerateRandomIntelligence();
+                
+                tempMinion.AddAbility(GenerateRandomAbility());
             }
             else
             {
@@ -360,6 +390,7 @@ public class PopulationController : MonoBehaviour
         }
     }
 
+    /// <summary>Used in Creation and Mutation of each individual</summary>
     private float GenerateRandomSpeed()
     {
         float speed = Random.Range(minimumSpeed, maximumSpeed);
@@ -372,16 +403,19 @@ public class PopulationController : MonoBehaviour
         return speed;
     }
 
+    /// <summary>Used in Creation and Mutation of each individual</summary>
     private float GenerateRandomIntelligence()
     {
-        return Random.Range(0, 10);
+        return Random.Range(0f, 10f);
     }
 
+    /// <summary>Used in Creation and Mutation of each individual</summary>
     private float GenerateRandomDefense()
     {
         return Random.Range(minimumDefense, maximumDefense);
     }
 
+    /// <summary>Used in Creation and Mutation of each individual</summary>
     private int GenerateRandomLife()
     {
         int life = Random.Range(minimumLife, maximumLife);
@@ -395,7 +429,7 @@ public class PopulationController : MonoBehaviour
         return life;
     }
 
-    // Todo
+    /// <summary>Used in Creation and Mutation of each individual</summary>
     private Color GenerateRandomColor()
     {
         float red = Random.value;
@@ -404,6 +438,21 @@ public class PopulationController : MonoBehaviour
         return new Color(red, green, blue);
     }
 
+    /// <summary>Used in Creation and Mutation of each individual</summary>
+    private IAbility GenerateRandomAbility(bool hasAbility = false)
+    {
+        float val = Random.value * 100;
+        if (hasAbility && val > 5f) return null;
+        if (val > 20f) return null;
+        if (DataController.Instance.HasShieldAbility.Value)
+        {
+            return new ShieldAbility();
+        }
+
+        return null;
+    }
+
+    /// <summary>Save the MinionData in PopulationController</summary>
     public void SaveMinion(MinionData pData, FitnessData pFitnessData, bool bDied = false)
     {
         _minionsAfterWave[pData] = pFitnessData;
@@ -441,11 +490,14 @@ public class PopulationController : MonoBehaviour
         DisplayEndTurnSelection();
     }
 
+    /// <summary>Shows the FitnessSelection panel</summary>
     private void DisplayEndTurnSelection()
     {
+        FindBetterAttributes();
         _endTurnWindow.SetActive(true);
     }
 
+    /// <summary>Get the values from the Panel and Starts another Population</summary>
     public void EndTurn()
     {
         diedMinions = 0;
@@ -473,6 +525,7 @@ public class PopulationController : MonoBehaviour
         
     }
 
+    /// <summary>Transforms the new Population into a GameObjectsPopulation</summary>
     public void TransformToGameObject(List<MinionData> pMinions)
     {
         for (int i = _aliveMinions.Count - 1; i >= 0; i--)
@@ -505,6 +558,7 @@ public class PopulationController : MonoBehaviour
         DoCalculateFitness(fitnessType);
     }
 
+    /// <summary>Calculate the Fitness of the Population to generate the new Population</summary>
     public void DoCalculateFitness(FitnessTypes type)
     {
         switch (type)
@@ -562,17 +616,17 @@ public class PopulationController : MonoBehaviour
     private void FindBetterAttributes()
     {
         FitnessData pFirstMinion = _minionsAfterWave.First().Value;
-        _mBestLife = pFirstMinion.Life;
+        _mBestLife = pFirstMinion.OriginalLife;
         _mBestDefense = pFirstMinion.Defense;
         _mBestIntelligence = pFirstMinion.Intelligence;
         _mBestSpeed = pFirstMinion.Speed;
         
         foreach (var pMinion in _minionsAfterWave)
         {
-            _mBestLife = (_mBestLife > pMinion.Value.Life)? pMinion.Value.Life: _mBestLife;
-            _mBestDefense = (_mBestDefense > pMinion.Value.Defense)? pMinion.Value.Defense: _mBestDefense;
-            _mBestIntelligence = (_mBestIntelligence > pMinion.Value.Intelligence)? pMinion.Value.Intelligence: _mBestIntelligence;
-            _mBestSpeed = (_mBestSpeed > pMinion.Value.Speed)? pMinion.Value.Speed: _mBestSpeed;
+            _mBestLife = (_mBestLife < pMinion.Value.OriginalLife)? pMinion.Value.Life: _mBestLife;
+            _mBestDefense = (_mBestDefense < pMinion.Value.Defense)? pMinion.Value.Defense: _mBestDefense;
+            _mBestIntelligence = (_mBestIntelligence < pMinion.Value.Intelligence)? pMinion.Value.Intelligence: _mBestIntelligence;
+            _mBestSpeed = (_mBestSpeed < pMinion.Value.Speed)? pMinion.Value.Speed: _mBestSpeed;
         }
     }
 
@@ -682,6 +736,7 @@ public class PopulationController : MonoBehaviour
     }
     
     #endregion
+    /// <summary>Select and Generates children from two mothers</summary>
     public void Crossover(List<MinionData> pFrom)
     {
         _minionsFromCrossover = new List<MinionData>();
@@ -699,6 +754,7 @@ public class PopulationController : MonoBehaviour
         }
     }
 
+    /// <summary>Merge two Individual to generate two more</summary>
     private void doCrossover(MinionData minion1, MinionData minion2)
     {       
         float[] data1 = TransformDataToVector(minion1);
@@ -724,8 +780,52 @@ public class PopulationController : MonoBehaviour
         MinionData minionDataChild1 = TransformVectorToData(child1);
         MinionData minionDataChild2 = TransformVectorToData(child2);
 
+        
+        List<IAbility> sameAbilities = new List<IAbility>();
+        for (int i = minion1.Abilities.Count-1; i >= 0; i--)
+        {
+            var ability = minion1.Abilities[i];
+            if (minion2.Abilities.Contains(ability))
+            {
+                sameAbilities.Add(ability);
+                minion1.Abilities.Remove(ability);
+                minion2.Abilities.Remove(ability);
+            }
+        }
+
+        float selectNumber;
+        foreach (var ability in minion1.Abilities)
+        {
+            selectNumber = Random.value;
+            if (selectNumber <= 0.5f)
+            {
+                minionDataChild1.Abilities.Add(ability);
+            }
+            else
+            {
+                minionDataChild2.Abilities.Add(ability);
+            }
+        }
+
+        foreach (var ability in minion2.Abilities)
+        {
+            selectNumber = Random.value;
+            if (selectNumber <= 0.5f)
+            {
+                minionDataChild1.Abilities.Add(ability);
+            }
+            else
+            {
+                minionDataChild2.Abilities.Add(ability);
+            }
+        }
+        
+        minionDataChild1.Abilities.AddRange(sameAbilities);
+        minionDataChild2.Abilities.AddRange(sameAbilities);
+    
         _minionsFromCrossover.Add(minionDataChild1);
         _minionsFromCrossover.Add(minionDataChild2);
+        
     }
 
     private MinionData RouletteSelection(List<MinionData> pFrom)
@@ -811,6 +911,7 @@ public class PopulationController : MonoBehaviour
           }
 
           tNewMinion = TransformVectorToData(data);
+          tNewMinion.AddAbility(GenerateRandomAbility(tNewMinion.Abilities.Count > 0));
           _minionsFromCrossover.Remove(pMinionData);
           _minionsFromCrossover.Add(tNewMinion);
 

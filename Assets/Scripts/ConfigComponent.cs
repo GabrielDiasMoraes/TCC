@@ -50,7 +50,7 @@ public class ConfigComponent : MonoBehaviour
 
     public void SetDifficulty(int pNewDifficulty)
     {
-        highlights[currentDifficulty].SetActive(false);
+        highlights[newDifficulty].SetActive(false);
         highlights[pNewDifficulty].SetActive(true);
         newDifficulty = pNewDifficulty;
     }

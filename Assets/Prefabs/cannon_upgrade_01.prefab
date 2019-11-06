@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _radiusRange: 13.65
-  _damage: 50
+  _damage: 70
   _shootDelay: 1
   _cannonRotationCenter: {fileID: 163020}
   _explosion: {fileID: 0}

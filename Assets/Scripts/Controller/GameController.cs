@@ -116,7 +116,8 @@ public class GameController : MonoBehaviour
 
         int actualPoints = DataController.Instance.CurrentPoints;
         
-        DataController.Instance.CurrentPoints += maxTurn - finalTurn;
+        DataController.Instance.CurrentPoints += starCount;
+        
         DataController.Instance.Data["niveis"][currentLevel]["starCount"] = starCount;
         DataController.Instance.SaveData();
 

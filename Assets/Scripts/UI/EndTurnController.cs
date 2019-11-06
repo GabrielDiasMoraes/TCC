@@ -12,6 +12,12 @@ public class EndTurnController : MonoBehaviour
     [SerializeField] private Slider _elitismBotSlider;
     [SerializeField] private TextMeshProUGUI _elitismBotValue;
     [SerializeField] private Button _confirmButton;
+
+    [Header("Right Panel")] 
+    [SerializeField] private TextMeshProUGUI _bestLife;
+    [SerializeField] private TextMeshProUGUI _bestArmor;
+    [SerializeField] private TextMeshProUGUI _bestSpeed;
+    [SerializeField] private TextMeshProUGUI _bestIntelligence;
     
     void Start()
     {
@@ -35,6 +41,11 @@ public class EndTurnController : MonoBehaviour
         _fitnessTypeSelector.value = 0;
         
         _confirmButton.onClick.AddListener(SetDataInController);
+
+        _bestLife.text = PopulationController.Instance.BestLife.ToString("0.00");
+        _bestArmor.text = PopulationController.Instance.BestDefense.ToString("0.00");
+        _bestSpeed.text = PopulationController.Instance.BestSpeed.ToString("0.00");
+        _bestIntelligence.text = PopulationController.Instance.BestIntelligence.ToString("0.00") + "%";
     }
 
     void SetDataInController()

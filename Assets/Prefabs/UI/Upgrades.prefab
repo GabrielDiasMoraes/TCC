@@ -745,6 +745,7 @@ GameObject:
   - component: {fileID: 3806457578532184154}
   - component: {fileID: 3806457578532184153}
   - component: {fileID: 3806457578532184152}
+  - component: {fileID: 298042129}
   m_Layer: 5
   m_Name: Intelligence
   m_TagString: Untagged
@@ -848,6 +849,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &298042129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457578532184158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff03ce281559ae4f899113dc96ed9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradeController: {fileID: 383605957}
+  _title: {fileID: 3806457578751101700}
+  _desc: {fileID: 3806457578498858670}
+  _btnBuy: {fileID: 3806457579738049833}
+  _btnText: {fileID: 3806457578960664302}
+  highlight: {fileID: 3736390602872969398}
+  _titleValue: Conhecimento
+  _descValue: "Todas as tropas ir\xE3o pelo caminho mais r\xE1pido sem desviar."
+  _price: 20
+  abilityType: 9
+  needsToUnlock: 8
 --- !u!1 &3806457578610057448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,7 +1036,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 49.6
+  m_fontSize: 57.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1180,10 +1204,10 @@ RectTransform:
   m_Father: {fileID: 3806457579596314023}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 45, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 496.54572, y: -53.69748}
+  m_SizeDelta: {x: 95, y: 107.39496}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3806457578849248145
 CanvasRenderer:
@@ -1239,7 +1263,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 83.6
+  m_fontSize: 96.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1387,6 +1411,7 @@ GameObject:
   - component: {fileID: 3806457578931402344}
   - component: {fileID: 3806457578931402351}
   - component: {fileID: 3806457578931402350}
+  - component: {fileID: 1441608211}
   m_Layer: 5
   m_Name: Speed3
   m_TagString: Untagged
@@ -1491,6 +1516,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1441608211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457578931402348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff03ce281559ae4f899113dc96ed9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradeController: {fileID: 383605957}
+  _title: {fileID: 3806457578751101700}
+  _desc: {fileID: 3806457578498858670}
+  _btnBuy: {fileID: 3806457579738049833}
+  _btnText: {fileID: 3806457578960664302}
+  highlight: {fileID: 8500634856432721908}
+  _titleValue: Velocidade +3
+  _descValue: "Todas as tropas andam 30% mais r\xE1pido."
+  _price: 3
+  abilityType: 6
+  needsToUnlock: 5
 --- !u!1 &3806457578953920954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,13 +1550,14 @@ GameObject:
   - component: {fileID: 3806457578953920955}
   - component: {fileID: 3806457578953920933}
   - component: {fileID: 3806457578953920932}
+  - component: {fileID: 383605957}
   m_Layer: 5
   m_Name: Upgrades
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3806457578953920955
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1516,7 +1565,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3806457578953920954}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1554,7 +1603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.007843138, g: 0.05490196, b: 0.14901961, a: 1}
+  m_Color: {r: 0.007843138, g: 0.054901965, b: 0.14901961, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1568,6 +1617,19 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &383605957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457578953920954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6bd907d26441942baf20e9812eaa51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points: {fileID: 1432338623}
 --- !u!1 &3806457578960664300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1660,7 +1722,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 66.2
+  m_fontSize: 78.5
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1736,6 +1798,7 @@ GameObject:
   - component: {fileID: 3806457579022955720}
   - component: {fileID: 3806457579022955727}
   - component: {fileID: 3806457579022955726}
+  - component: {fileID: 970218617}
   m_Layer: 5
   m_Name: Life3
   m_TagString: Untagged
@@ -1842,6 +1905,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &970218617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457579022955724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff03ce281559ae4f899113dc96ed9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradeController: {fileID: 383605957}
+  _title: {fileID: 3806457578751101700}
+  _desc: {fileID: 3806457578498858670}
+  _btnBuy: {fileID: 3806457579738049833}
+  _btnText: {fileID: 3806457578960664302}
+  highlight: {fileID: 7473221785179847843}
+  _titleValue: Vida +3
+  _descValue: "Todas as tropas aliadas nascem com +30% de vida m\xE1xima"
+  _price: 3
+  abilityType: 3
+  needsToUnlock: 2
 --- !u!1 &3806457579035650780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1926,6 +2012,7 @@ GameObject:
   - component: {fileID: 3806457579114877213}
   - component: {fileID: 3806457579114877212}
   - component: {fileID: 3806457579114877203}
+  - component: {fileID: 1509324344}
   m_Layer: 5
   m_Name: MoreMinions
   m_TagString: Untagged
@@ -2030,6 +2117,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1509324344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457579114877201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff03ce281559ae4f899113dc96ed9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradeController: {fileID: 383605957}
+  _title: {fileID: 3806457578751101700}
+  _desc: {fileID: 3806457578498858670}
+  _btnBuy: {fileID: 3806457579738049833}
+  _btnText: {fileID: 3806457578960664302}
+  highlight: {fileID: 3708648522378695901}
+  _titleValue: Grande Familia
+  _descValue: "Suas popula\xE7\xF5es recebem + 10 tropas extras."
+  _price: 3
+  abilityType: 7
+  needsToUnlock: 0
 --- !u!1 &3806457579193873564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2042,6 +2152,7 @@ GameObject:
   - component: {fileID: 3806457579193873560}
   - component: {fileID: 3806457579193873567}
   - component: {fileID: 3806457579193873566}
+  - component: {fileID: 1191004073}
   m_Layer: 5
   m_Name: Speed
   m_TagString: Untagged
@@ -2146,6 +2257,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1191004073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457579193873564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff03ce281559ae4f899113dc96ed9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradeController: {fileID: 383605957}
+  _title: {fileID: 3806457578751101700}
+  _desc: {fileID: 3806457578498858670}
+  _btnBuy: {fileID: 3806457579738049833}
+  _btnText: {fileID: 3806457578960664302}
+  highlight: {fileID: 7304576680823166665}
+  _titleValue: Velocidade +1
+  _descValue: "Todas as tropas andam 10% mais r\xE1pido."
+  _price: 1
+  abilityType: 4
+  needsToUnlock: 0
 --- !u!1 &3806457579244665455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2230,6 +2364,7 @@ GameObject:
   - component: {fileID: 3806457579326307372}
   - component: {fileID: 3806457579326307363}
   - component: {fileID: 3806457579326307362}
+  - component: {fileID: 1828788523}
   m_Layer: 5
   m_Name: Defense
   m_TagString: Untagged
@@ -2333,6 +2468,30 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1828788523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457579326307360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff03ce281559ae4f899113dc96ed9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradeController: {fileID: 383605957}
+  _title: {fileID: 3806457578751101700}
+  _desc: {fileID: 3806457578498858670}
+  _btnBuy: {fileID: 3806457579738049833}
+  _btnText: {fileID: 3806457578960664302}
+  highlight: {fileID: 5730028101247854484}
+  _titleValue: Escudo Protetor
+  _descValue: "Algumas tropas recebem aleat\xF3riamente um escudo protetor durante
+    5 segundos negando todo o dano recebido."
+  _price: 10
+  abilityType: 8
+  needsToUnlock: 7
 --- !u!1 &3806457579347577881
 GameObject:
   m_ObjectHideFlags: 0
@@ -2368,7 +2527,7 @@ RectTransform:
   m_Father: {fileID: 3806457578953920955}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.6621584, y: 0.09860545}
+  m_AnchorMin: {x: 0.6621584, y: 0.09027211}
   m_AnchorMax: {x: 0.89900005, y: 0.7211973}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -2394,7 +2553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.47843137, g: 0.46666667, b: 0.8509804, a: 0.6627451}
+  m_Color: {r: 0.47843137, g: 0.46666667, b: 0.8509804, a: 0.6431373}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2512,8 +2671,8 @@ RectTransform:
   m_Father: {fileID: 3806457578953920955}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.2588018, y: 0.80766666}
-  m_AnchorMax: {x: 0.73619825, y: 0.89800006}
+  m_AnchorMin: {x: 0.2588018, y: 0.82518524}
+  m_AnchorMax: {x: 0.73619825, y: 0.91551864}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2572,7 +2731,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 79.95
+  m_fontSize: 91.95
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2720,6 +2879,7 @@ GameObject:
   - component: {fileID: 3806457579596314018}
   - component: {fileID: 3806457579596314017}
   - component: {fileID: 3806457579596314016}
+  - component: {fileID: 1432338623}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -2743,8 +2903,8 @@ RectTransform:
   m_Father: {fileID: 3806457578953920955}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.2588018, y: 0.7211973}
-  m_AnchorMax: {x: 0.73619825, y: 0.80766666}
+  m_AnchorMin: {x: 0.2588018, y: 0.73318523}
+  m_AnchorMax: {x: 0.73619825, y: 0.8196546}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2806,6 +2966,19 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 1
+--- !u!114 &1432338623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457579596314022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4d35fe8fa8ea748b07884d6ad5cab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointsQuantity: {fileID: 3806457578849248144}
 --- !u!1 &3806457579721840746
 GameObject:
   m_ObjectHideFlags: 0
@@ -3077,6 +3250,7 @@ GameObject:
   - component: {fileID: 3806457580005607834}
   - component: {fileID: 3806457580005607833}
   - component: {fileID: 3806457580005607832}
+  - component: {fileID: 1466455114}
   m_Layer: 5
   m_Name: Speed2
   m_TagString: Untagged
@@ -3181,6 +3355,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1466455114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457580005607838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff03ce281559ae4f899113dc96ed9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradeController: {fileID: 383605957}
+  _title: {fileID: 3806457578751101700}
+  _desc: {fileID: 3806457578498858670}
+  _btnBuy: {fileID: 3806457579738049833}
+  _btnText: {fileID: 3806457578960664302}
+  highlight: {fileID: 3153007248721609863}
+  _titleValue: Velocidade +2
+  _descValue: "Todas as tropas andam 20% mais r\xE1pido."
+  _price: 2
+  abilityType: 5
+  needsToUnlock: 4
 --- !u!1 &3806457580115366502
 GameObject:
   m_ObjectHideFlags: 0
@@ -3418,6 +3615,7 @@ GameObject:
   - component: {fileID: 3806457580222132389}
   - component: {fileID: 3806457580222132388}
   - component: {fileID: 3806457580222132411}
+  - component: {fileID: 1879658665}
   m_Layer: 5
   m_Name: Life2
   m_TagString: Untagged
@@ -3523,6 +3721,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1879658665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457580222132409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff03ce281559ae4f899113dc96ed9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradeController: {fileID: 383605957}
+  _title: {fileID: 3806457578751101700}
+  _desc: {fileID: 3806457578498858670}
+  _btnBuy: {fileID: 3806457579738049833}
+  _btnText: {fileID: 3806457578960664302}
+  highlight: {fileID: 8148966775423011803}
+  _titleValue: Vida +2
+  _descValue: "Todas as tropas aliadas nascem com +20% de vida m\xE1xima"
+  _price: 2
+  abilityType: 2
+  needsToUnlock: 1
 --- !u!1 &3806457580273149692
 GameObject:
   m_ObjectHideFlags: 0
@@ -3555,10 +3776,10 @@ RectTransform:
   m_Father: {fileID: 3806457579596314023}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 575.0457, y: -53.69748}
+  m_SizeDelta: {x: 60, y: 107.39496}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3806457580273149695
 CanvasRenderer:
@@ -3647,7 +3868,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3806457580309265431}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 
@@ -3679,6 +3900,7 @@ GameObject:
   - component: {fileID: 3806457580452726271}
   - component: {fileID: 3806457580452726270}
   - component: {fileID: 3806457580452726269}
+  - component: {fileID: 376304198}
   m_Layer: 5
   m_Name: Life
   m_TagString: Untagged
@@ -3783,6 +4005,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &376304198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806457580452726259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff03ce281559ae4f899113dc96ed9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradeController: {fileID: 383605957}
+  _title: {fileID: 3806457578751101700}
+  _desc: {fileID: 3806457578498858670}
+  _btnBuy: {fileID: 3806457579738049833}
+  _btnText: {fileID: 3806457578960664302}
+  highlight: {fileID: 4079083112930282886}
+  _titleValue: Vida +1
+  _descValue: "Todas as tropas aliadas nascem com +10% de vida m\xE1xima"
+  _price: 1
+  abilityType: 1
+  needsToUnlock: 0
 --- !u!1 &3823924295340476415
 GameObject:
   m_ObjectHideFlags: 0
@@ -3848,7 +4093,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6fc633512335b634b8de99a9aa8cae81, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6db2e6b86ed342a41a43e0903aeff560, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -3910,7 +4155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _panelToActivate: {fileID: 0}
-  _panelToDeactivate: {fileID: 0}
+  _panelToDeactivate: {fileID: 3806457578953920954}
   isAdditive: 0
 --- !u!1 &4079083112930282886
 GameObject:

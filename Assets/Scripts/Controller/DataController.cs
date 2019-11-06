@@ -21,6 +21,8 @@ public class DataController : MonoBehaviour
     private bool? _hasIntelligenceBonus;
     
     private bool? _hasMinionAddition;
+    
+    private bool? _hasShieldAbility;
 
     #region Properties
 
@@ -64,6 +66,8 @@ public class DataController : MonoBehaviour
 
     public bool? HasIntelligenceBonus => _hasIntelligenceBonus ?? (_hasIntelligenceBonus = ownedAbilities.Contains(AbilityTypes.Smarter));
 
+    public bool? HasShieldAbility => _hasShieldAbility ?? (_hasShieldAbility = ownedAbilities.Contains(AbilityTypes.Shield));
+    
     public bool? HasMinionAddition => _hasMinionAddition ?? (_hasMinionAddition = ownedAbilities.Contains(AbilityTypes.More_Minions));
 
     #endregion
@@ -99,7 +103,7 @@ public class DataController : MonoBehaviour
         builder.Append("\"melhorias\": [],");
         builder.Append("\"niveis\": {");
         builder.Append("\"Nvl1\":{\"starCount\" : \"0\"},},");
-        builder.Append("\"pontuacao\": \"40\"");
+        builder.Append("\"pontuacao\": \"30\"");
         builder.Append("}");
 
         string stringField = builder.ToString();
