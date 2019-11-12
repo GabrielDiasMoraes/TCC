@@ -82,6 +82,8 @@ public class PopulationController : MonoBehaviour
     private float _mBestDefense;
     private float _mBestIntelligence;
 
+    private List<GameObject> minionsPool = new List<GameObject>();
+    
     #endregion
     
     #region Properties
@@ -321,14 +323,22 @@ public class PopulationController : MonoBehaviour
     /// <summary>Create the Minion GameObject.</summary>
     private GameObject CreateMinion()
     {
-        GameObject temp = Instantiate(_minionPrefab, initPoint.position, Quaternion.identity);
-        GameObject lifebar = Instantiate(_lifeBarPrefab);
-        temp.GetComponent<Minion>().LifeBar = lifebar.GetComponent<Lifebar>();
-        temp.GetComponent<Minion>().LifeBar.TargetToFollow = temp;
-        temp.GetComponent<Minion>().LifeBar.gameObject.SetActive(false);
-      
-        temp.SetActive(false);
-        
+        GameObject temp;
+        if (minionsPool.Count > 0)
+        {
+            temp = minionsPool[0];
+            temp.transform.position = initPoint.position;
+            temp.transform.rotation = Quaternion.identity;
+            minionsPool.RemoveAt(0);
+        }
+        else
+        {
+            temp = Instantiate(_minionPrefab, initPoint.position, Quaternion.identity);
+            GameObject lifebar = Instantiate(_lifeBarPrefab);
+            temp.GetComponent<Minion>().LifeBar = lifebar.GetComponent<Lifebar>();
+            temp.GetComponent<Minion>().LifeBar.TargetToFollow = temp;
+            temp.GetComponent<Minion>().LifeBar.gameObject.SetActive(false);
+        }      
         temp.SetActive(false);
 
         return temp;
@@ -530,17 +540,16 @@ public class PopulationController : MonoBehaviour
     {
         for (int i = _aliveMinions.Count - 1; i >= 0; i--)
         {
-            Destroy(_aliveMinions[i].GetComponent<Minion>().LifeBar.gameObject);
-            Destroy(_aliveMinions[i].GetComponent<Minion>().DeadModel);
-            Destroy(_aliveMinions[i]);
+            _aliveMinions[i].GetComponent<Minion>().ResetMinion();
+            minionsPool.Add(_aliveMinions[i]);
             _aliveMinions.RemoveAt(i);
+            
         }
         
         for (int i = _minionsToAwake.Count - 1; i >= 0; i--)
         {
-            Destroy(_minionsToAwake[i].GetComponent<Minion>().LifeBar.gameObject);
-            Destroy(_minionsToAwake[i].GetComponent<Minion>().DeadModel);
-            Destroy(_minionsToAwake[i]);
+            _minionsToAwake[i].GetComponent<Minion>().ResetMinion();
+            minionsPool.Add(_minionsToAwake[i]);
             _minionsToAwake.RemoveAt(i);
         }
 

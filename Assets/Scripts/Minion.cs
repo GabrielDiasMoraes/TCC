@@ -56,6 +56,8 @@ public class Minion : MonoBehaviour
 
     public GameObject DeadModel => deadModel;
 
+    public GameObject AliveModel => aliveModel;
+
     public bool Started
     {
         get => _started;
@@ -202,7 +204,7 @@ public class Minion : MonoBehaviour
                 if (_timepassed >= 3f)
                 {
                     deadModel.SetActive(false);
-                    this.gameObject.SetActive(false);
+                    aliveModel.SetActive(false);
                 }
             }
         }
@@ -243,6 +245,16 @@ public class Minion : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(navMeshAgent.velocity.normalized);
     }
 
+    public void ResetMinion()
+    {
+        LifeBar.gameObject.SetActive(false);
+        DeadModel.SetActive(false);
+        AliveModel.SetActive(true);
+        DeadModel.transform.parent = transform;
+        DeadModel.transform.position = Vector3.zero;
+        gameObject.SetActive(false);
+    }
+    
     public Vector3 GenerateWrongDestination()
     {
         var tempTransform = transform;
