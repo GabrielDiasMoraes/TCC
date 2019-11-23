@@ -60,7 +60,15 @@ public class DataController : MonoBehaviour
 
     public List<AbilityTypes> OwnedAbilities
     {
-        get => ownedAbilities;
+        get
+        {
+            if (ownedAbilities != null) {}
+            else
+            {
+                ownedAbilities = new List<AbilityTypes>();
+            }
+            return ownedAbilities;
+        }
         set => ownedAbilities = value;
     }
 

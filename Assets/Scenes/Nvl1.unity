@@ -31526,13 +31526,13 @@ MonoBehaviour:
   _lifeBarPrefab: {fileID: 8406501268769494566, guid: b7bfb81a5343d104388c28572affc568,
     type: 3}
   _minionsQuantity: 100
-  _mutationPercent: 20
-  minimumSpeed: 20
+  _mutationPercent: 30
+  minimumSpeed: 10
   maximumSpeed: 100
-  minimumLife: 10
-  maximumLife: 200
+  minimumLife: 1
+  maximumLife: 300
   minimumDefense: 0
-  maximumDefense: 70
+  maximumDefense: 80
   minimumElitismPercent: 5
   maximumElitismPercent: 10
   _minionsToAwake: []
@@ -35540,6 +35540,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1950201322}
+    - target: {fileID: 4921927379221048044, guid: 90db1a68ab2e99f49905135546ba01f5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4921927379236638608, guid: 90db1a68ab2e99f49905135546ba01f5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -35550,6 +35555,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1950201322}
+    - target: {fileID: 4921927378343561020, guid: 90db1a68ab2e99f49905135546ba01f5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4921927379321677471, guid: 90db1a68ab2e99f49905135546ba01f5,
         type: 3}
       propertyPath: m_Enabled

@@ -251,8 +251,17 @@ public class Minion : MonoBehaviour
         DeadModel.SetActive(false);
         AliveModel.SetActive(true);
         DeadModel.transform.parent = transform;
-        DeadModel.transform.position = Vector3.zero;
+        DeadModel.transform.position = transform.position;
+        AliveModel.transform.position = transform.position;
+        DeadModel.transform.rotation = transform.rotation;
+        AliveModel.transform.rotation = transform.rotation;
         gameObject.SetActive(false);
+        _reachEnd = false;
+        wrongDestTime = 0f;
+        wrongDestCooldown = 0f;
+        isGoingWrongDest = false;
+        _timepassed = 0f;
+        _isInvencible = false;
     }
     
     public Vector3 GenerateWrongDestination()

@@ -372,13 +372,13 @@ public class PopulationController : MonoBehaviour
             
             if (!tempMinion.IsFromCrossover)
             {
-                tempAgent.speed = tempMinion.SpeedValue = GenerateRandomSpeed();
+                tempAgent.speed = tempMinion.SpeedValue = GenerateRandomSpeed(true);
 
-                tempMinion.DefPoints = GenerateRandomDefense();
+                tempMinion.DefPoints = GenerateRandomDefense(true);
 
-                tempMinion.InitialLife = tempMinion.LifePoints = GenerateRandomLife();
+                tempMinion.InitialLife = tempMinion.LifePoints = GenerateRandomLife(true);
 
-                tempMinion.Intelligence = GenerateRandomIntelligence();
+                tempMinion.Intelligence = GenerateRandomIntelligence(true);
                 
                 tempMinion.AddAbility(GenerateRandomAbility());
             }
@@ -401,9 +401,10 @@ public class PopulationController : MonoBehaviour
     }
 
     /// <summary>Used in Creation and Mutation of each individual</summary>
-    private float GenerateRandomSpeed()
+    private float GenerateRandomSpeed(bool bIsNewlyCreated = false)
     {
-        float speed = Random.Range(minimumSpeed, maximumSpeed);
+        float mpp = (bIsNewlyCreated) ? 0.8f : 1f;
+        float speed = Random.Range(minimumSpeed, maximumSpeed*mpp);
         if (DataController.Instance.OwnedAbilities.Contains(AbilityTypes.Speed_Plus_1))
             speed += speed * 0.1f;
         if(DataController.Instance.OwnedAbilities.Contains(AbilityTypes.Speed_Plus_2))
@@ -414,21 +415,24 @@ public class PopulationController : MonoBehaviour
     }
 
     /// <summary>Used in Creation and Mutation of each individual</summary>
-    private float GenerateRandomIntelligence()
+    private float GenerateRandomIntelligence(bool bIsNewlyCreated = false)
     {
-        return Random.Range(0f, 10f);
+        float mpp = (bIsNewlyCreated) ? 0.6f : 1f;
+        return Random.Range(0f, 10f * mpp);
     }
 
     /// <summary>Used in Creation and Mutation of each individual</summary>
-    private float GenerateRandomDefense()
+    private float GenerateRandomDefense(bool bIsNewlyCreated = false)
     {
-        return Random.Range(minimumDefense, maximumDefense);
+        float mpp = (bIsNewlyCreated) ? 0.8f : 1f;
+        return Random.Range(minimumDefense, maximumDefense*mpp);
     }
 
     /// <summary>Used in Creation and Mutation of each individual</summary>
-    private int GenerateRandomLife()
+    private int GenerateRandomLife(bool bIsNewlyCreated = false)
     {
-        int life = Random.Range(minimumLife, maximumLife);
+        float mpp = (bIsNewlyCreated) ? 0.8f : 1f;
+        int life = Random.Range(minimumLife, (int)(maximumLife*mpp));
 
         if (DataController.Instance.OwnedAbilities.Contains(AbilityTypes.Life_Plus_1))
             life += Mathf.RoundToInt(life * 0.1f);
@@ -632,7 +636,7 @@ public class PopulationController : MonoBehaviour
         
         foreach (var pMinion in _minionsAfterWave)
         {
-            _mBestLife = (_mBestLife < pMinion.Value.OriginalLife)? pMinion.Value.Life: _mBestLife;
+            _mBestLife = (_mBestLife < pMinion.Value.OriginalLife)? pMinion.Value.OriginalLife: _mBestLife;
             _mBestDefense = (_mBestDefense < pMinion.Value.Defense)? pMinion.Value.Defense: _mBestDefense;
             _mBestIntelligence = (_mBestIntelligence < pMinion.Value.Intelligence)? pMinion.Value.Intelligence: _mBestIntelligence;
             _mBestSpeed = (_mBestSpeed < pMinion.Value.Speed)? pMinion.Value.Speed: _mBestSpeed;
@@ -842,6 +846,8 @@ public class PopulationController : MonoBehaviour
         float fMax = pFrom.Sum(data => data.Fitness);
         float fMinimum = Random.Range(0, fMax);
         float fCurrent = 0;
+        // First the "better"
+        pFrom.Reverse();
         foreach (var data in pFrom)
         {
             fCurrent += data.Fitness;
@@ -851,6 +857,7 @@ public class PopulationController : MonoBehaviour
             }
         }
 
+        // Do know if code can go here, but in case of emergency use this
         int pos = Random.Range(0, pFrom.Count);
         return pFrom.ElementAt(pos);
     }
