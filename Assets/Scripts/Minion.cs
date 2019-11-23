@@ -112,10 +112,10 @@ public class Minion : MonoBehaviour
         set
         {
             _data.Color = value;
-            _renderer.material.color = value;
+            _renderer.material = ColorPool.Instance.GetMaterial(value, false);
             foreach (var fragmentRender in _deadFragmentRenderers)
             {
-                fragmentRender.material.color = value;
+                fragmentRender.material = ColorPool.Instance.GetMaterial(value, true);
             }
         }
     }
@@ -178,7 +178,6 @@ public class Minion : MonoBehaviour
         isGoingWrongDest = false;
         _lifeBar.gameObject.SetActive(true);
         _isInvencible = false;
-        navMeshAgent.updateRotation = false;
     }
 
     private void Update()
@@ -242,7 +241,6 @@ public class Minion : MonoBehaviour
         wrongDestCooldown += Time.deltaTime;
         if(!_animator.isActiveAndEnabled) return;
         _animator.Play(navMeshAgent.velocity.magnitude > 0 ? "Idle" : "Stopped");
-        transform.rotation = Quaternion.LookRotation(navMeshAgent.velocity.normalized);
     }
 
     public void ResetMinion()

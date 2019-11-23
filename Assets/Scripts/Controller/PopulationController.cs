@@ -446,10 +446,9 @@ public class PopulationController : MonoBehaviour
     /// <summary>Used in Creation and Mutation of each individual</summary>
     private Color GenerateRandomColor()
     {
-        float red = Random.value;
-        float green = Random.value;
-        float blue = Random.value;
-        return new Color(red, green, blue);
+        int length = ColorPool.Instance.AvailableColors.Count;
+        int rnd = Random.Range(0, length - 1);
+        return ColorPool.Instance.AvailableColors[rnd];
     }
 
     /// <summary>Used in Creation and Mutation of each individual</summary>
@@ -647,7 +646,7 @@ public class PopulationController : MonoBehaviour
     {
         foreach (var pMinion in _minionsAfterWave)
         {
-            pMinion.Key.Fitness = pMinion.Value.TraveledDistance + pMinion.Value.Life;
+            pMinion.Key.Fitness = pMinion.Value.TraveledDistance;
         }
     }
     
@@ -719,10 +718,20 @@ public class PopulationController : MonoBehaviour
             }
         }
 
+        float fBestIntSpd = 0f;
+        
         foreach (var pMinion in _minionsAfterWave)
         {
-            pMinion.Key.Fitness = (pMinion.Value.Intelligence/pBestIntelligence * 3) + (pMinion.Value.Speed/pBestSpeed * 1);
+            float currentIntSpd = (pMinion.Value.Intelligence / pBestIntelligence) + (pMinion.Value.Speed / pBestSpeed);
+            if (currentIntSpd > fBestIntSpd)
+                fBestIntSpd = currentIntSpd;
         } 
+        
+        foreach (var pMinion in _minionsAfterWave)
+        {
+            float currentIntSpd = (pMinion.Value.Intelligence / pBestIntelligence) + (pMinion.Value.Speed / pBestSpeed);
+            pMinion.Key.Fitness = currentIntSpd / fBestIntSpd;
+        }
     }
     
     private void DoCalculateFitnessIntelligenceDefense()
@@ -742,9 +751,19 @@ public class PopulationController : MonoBehaviour
             }
         }
 
+        float fBestIntDef = 0f;
+        
         foreach (var pMinion in _minionsAfterWave)
         {
-            pMinion.Key.Fitness = (pMinion.Value.Intelligence/pBestIntelligence * 3) + (pMinion.Value.MitigatedDamage/pBestMitigatedDamage * 1);
+            float currentIntDef = (pMinion.Value.Intelligence / pBestIntelligence) + (pMinion.Value.MitigatedDamage / pBestMitigatedDamage);
+            if (currentIntDef > fBestIntDef)
+                fBestIntDef = currentIntDef;
+        } 
+        
+        foreach (var pMinion in _minionsAfterWave)
+        {
+            float currentIntDef = (pMinion.Value.Intelligence / pBestIntelligence) + (pMinion.Value.MitigatedDamage / pBestMitigatedDamage);
+            pMinion.Key.Fitness = currentIntDef / fBestIntDef;
         }
     }
     
@@ -843,18 +862,19 @@ public class PopulationController : MonoBehaviour
 
     private MinionData RouletteSelection(List<MinionData> pFrom)
     {
-        float fMax = pFrom.Sum(data => data.Fitness);
-        float fMinimum = Random.Range(0, fMax);
-        float fCurrent = 0;
+        float fFitnessSum = pFrom.Sum(data => data.Fitness);
+        float fMinimum = Random.Range(0, fFitnessSum);
+        float sumPastFitness = 0;
         // First the "better"
         pFrom.Reverse();
         foreach (var data in pFrom)
         {
-            fCurrent += data.Fitness;
+            float fCurrent = data.Fitness + sumPastFitness;
             if (fCurrent > fMinimum)
             {
                 return data;
             }
+            sumPastFitness += data.Fitness;
         }
 
         // Do know if code can go here, but in case of emergency use this
